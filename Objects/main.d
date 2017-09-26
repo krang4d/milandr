@@ -1,0 +1,10 @@
+.\objects\main.o: main.c
+.\objects\main.o: .\emdr1986x-std-per-lib-master\Config\MDR32F9Qx_config.h
+.\objects\main.o: .\emdr1986x-std-per-lib-master\MDR32F9Qx_StdPeriph_Driver\inc\MDR32F9Qx_lib.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\Milandr\MDR1986BExx\1.4.2\Libraries\CMSIS\CM3\DeviceSupport\MDR32F9Qx\inc\MDR32Fx.h
+.\objects\main.o: .\emdr1986x-std-per-lib-master\CMSIS\CM3\CoreSupport\core_cm3.h
+.\objects\main.o: .\emdr1986x-std-per-lib-master\CMSIS\CM3\CoreSupport\core_cmInstr.h
+.\objects\main.o: .\emdr1986x-std-per-lib-master\CMSIS\CM3\CoreSupport\core_cmFunc.h
+.\objects\main.o: .\emdr1986x-std-per-lib-master\CMSIS\CM3\DeviceSupport\MDR32F9Qx\startup\system_MDR32F9Qx.h
+.\objects\main.o: init_ports.h

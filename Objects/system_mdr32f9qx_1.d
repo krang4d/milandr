@@ -1,0 +1,9 @@
+.\objects\system_mdr32f9qx_1.o: RTE\Device\MDR1986BE92\system_MDR32F9Qx.c
+.\objects\system_mdr32f9qx_1.o: C:\Keil_v5\ARM\PACK\Milandr\MDR1986BExx\1.4.2\Libraries\CMSIS\CM3\DeviceSupport\MDR32F9Qx\inc\MDR32Fx.h
+.\objects\system_mdr32f9qx_1.o: .\emdr1986x-std-per-lib-master\CMSIS\CM3\CoreSupport\core_cm3.h
+.\objects\system_mdr32f9qx_1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\system_mdr32f9qx_1.o: .\emdr1986x-std-per-lib-master\CMSIS\CM3\CoreSupport\core_cmInstr.h
+.\objects\system_mdr32f9qx_1.o: .\emdr1986x-std-per-lib-master\CMSIS\CM3\CoreSupport\core_cmFunc.h
+.\objects\system_mdr32f9qx_1.o: .\emdr1986x-std-per-lib-master\CMSIS\CM3\DeviceSupport\MDR32F9Qx\startup\system_MDR32F9Qx.h
+.\objects\system_mdr32f9qx_1.o: .\emdr1986x-std-per-lib-master\Config\MDR32F9Qx_config.h
+.\objects\system_mdr32f9qx_1.o: .\emdr1986x-std-per-lib-master\MDR32F9Qx_StdPeriph_Driver\inc\MDR32F9Qx_lib.h
