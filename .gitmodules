@@ -1,0 +1,6 @@
+[submodule "emdr1986x-std-per-lib"]
+	path = emdr1986x-std-per-lib
+	url = https://github.com/eldarkg/emdr1986x-std-per-lib.git
+[submodule "emdr1986x-std-per-lib-doc"]
+	path = emdr1986x-std-per-lib-doc
+	url = https://github.com/eldarkg/emdr1986x-std-per-lib-doc.git
