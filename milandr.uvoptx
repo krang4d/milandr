@@ -178,7 +178,7 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>2</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\init_ports.c</PathWithFileName>
@@ -189,12 +189,12 @@
     <File>
       <GroupNumber>1</GroupNumber>
       <FileNumber>3</FileNumber>
-      <FileType>5</FileType>
+      <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\emdr1986x-std-per-lib-master\MDR32F9Qx_StdPeriph_Driver\inc\MDR32F9Qx_uart.h</PathWithFileName>
-      <FilenameWithoutPath>MDR32F9Qx_uart.h</FilenameWithoutPath>
+      <PathWithFileName>.\init_uart.c</PathWithFileName>
+      <FilenameWithoutPath>init_uart.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

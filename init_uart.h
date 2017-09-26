@@ -4,7 +4,7 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 void InitUart(void);
-int SendChar(int ch);
+int SendChar(char ch);
 
 int fputc(int ch, FILE *f);
 /* Private macro -------------------------------------------------------------*/

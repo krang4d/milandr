@@ -21,15 +21,23 @@ Target DLL:      UL2CM3.DLL V1.156.1.0
 Dialog DLL:      TCM.DLL V1.14.6.0
  
 <h2>Project:</h2>
-C:\Users\pasha\Documents\Keil\milandr\second\milandr.uvprojx
+C:\Users\pasha\Documents\Keil\milandr\milandr\milandr.uvprojx
 Project File Date:  09/26/2017
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
-Build target 'Target 1'
+Rebuild target 'Target 1'
+compiling init_uart.c...
 compiling main.c...
+compiling init_ports.c...
+assembling startup_MDR32F9Qx.s...
+compiling system_MDR32F9Qx.c...
+compiling MDR32F9Qx_port.c...
+compiling MDR32F9Qx_rst_clk.c...
+compiling MDR32F9Qx_uart.c...
 linking...
-Program Size: Code=1244 RO-data=224 RW-data=4 ZI-data=1644  
+Program Size: Code=2416 RO-data=224 RW-data=8 ZI-data=1672  
+FromELF: creating hex file...
 ".\Objects\milandr.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -47,10 +55,11 @@ Package Vendor: Milandr
    * Component: Startup Version: 1.3.1
    * Component: PORT Version: 1.3.1
    * Component: RST_CLK Version: 1.3.1
+   * Component: UART Version: 1.3.1
 
 <h2>Collection of Component include folders:</h2>
-  C:\Users\pasha\Documents\Keil\milandr\second\RTE
-  C:\Users\pasha\Documents\Keil\milandr\second\RTE\Device\MDR1986BE92
+  C:\Users\pasha\Documents\Keil\milandr\milandr\RTE
+  C:\Users\pasha\Documents\Keil\milandr\milandr\RTE\Device\MDR1986BE92
   C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include
   C:\Keil_v5\ARM\PACK\Milandr\MDR1986BExx\1.4.2\Config
   C:\Keil_v5\ARM\PACK\Milandr\MDR1986BExx\1.4.2\Libraries\CMSIS\CM3\CoreSupport
@@ -76,7 +85,11 @@ Package Vendor: Milandr
    * Component: Milandr::Drivers:RST_CLK:1.3.1
       Include file:  Libraries\MDR32F9Qx_StdPeriph_Driver\inc\MDR32F9Qx_rst_clk.h
       Source file:   Libraries\MDR32F9Qx_StdPeriph_Driver\src\MDR32F9Qx_rst_clk.c
-Build Time Elapsed:  00:00:00
+
+   * Component: Milandr::Drivers:UART:1.3.1
+      Include file:  Libraries\MDR32F9Qx_StdPeriph_Driver\inc\MDR32F9Qx_uart.h
+      Source file:   Libraries\MDR32F9Qx_StdPeriph_Driver\src\MDR32F9Qx_uart.c
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
