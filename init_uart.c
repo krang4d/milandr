@@ -8,6 +8,17 @@
 static PORT_InitTypeDef PortInit;
 static UART_InitTypeDef UART_InitStructure;
 
+uint16_t data;
+void UART2_IRQHandler(void)
+{
+  if (UART_GetITStatusMasked(MDR_UART2, UART_IT_RX)== SET)
+  {
+    UART_ClearITPendingBit(MDR_UART2, UART_IT_RX);
+    data = UART_ReceiveData(MDR_UART2);
+    UART_SendData(MDR_UART2, data);
+  }
+}
+
 void InitUart(void)
 {
   /* Enables the HSI clock on PORTD */
@@ -34,21 +45,25 @@ void InitUart(void)
 	PORT_Init(MDR_PORTD, &PortInit);
   
   /* Select HSI/2 as CPU_CLK source*/
-	RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv2, 0);
+	//RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1, 0);
   
   /* Enables the CPU_CLK clock on UART2 */
   RST_CLK_PCLKcmd(RST_CLK_PCLK_UART2, ENABLE);
   
+  NVIC_EnableIRQ(UART2_IRQn);
+  
   /* Set the HCLK division factor = 1 for UART2 */
 	UART_BRGInit(MDR_UART2, UART_HCLKdiv1 );
 
+  UART_ITConfig(MDR_UART2, UART_IT_RX, ENABLE);
+  
 	/* Initialize UART_InitStructure */
-	UART_InitStructure.UART_BaudRate = 115000;
+	UART_InitStructure.UART_BaudRate = 9600;
 	UART_InitStructure.UART_WordLength = UART_WordLength8b;
 	UART_InitStructure.UART_StopBits = UART_StopBits1;
 	UART_InitStructure.UART_Parity = UART_Parity_No;
 	UART_InitStructure.UART_FIFOMode = UART_FIFO_OFF;
-	UART_InitStructure.UART_HardwareFlowControl = UART_HardwareFlowControl_None;
+	UART_InitStructure.UART_HardwareFlowControl = UART_HardwareFlowControl_RXE | UART_HardwareFlowControl_TXE;
 
 	/* Configure UART2 parameters*/
 	UART_Init(MDR_UART2, &UART_InitStructure);
@@ -60,9 +75,9 @@ void InitUart(void)
 int SendChar(char ch)
 {
   /* Check TXFE flag */
-  while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE)!= SET)
-  {
-  }
+//  while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE)!= SET)
+//  {
+//  }
   /* Send Data from UART2 */
   UART_SendData (MDR_UART2,(uint16_t)ch);
 
