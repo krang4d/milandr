@@ -421,6 +421,17 @@
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>CMSIS</GroupName>
+        </Group>
+        <Group>
+          <GroupName>Startup</GroupName>
+        </Group>
+        <Group>
+          <GroupName>Module</GroupName>
+          <Files>
             <File>
               <FileName>init_ports.c</FileName>
               <FileType>1</FileType>
@@ -437,12 +448,6 @@
               <FilePath>.\init_spi.c</FilePath>
             </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>CMSIS</GroupName>
-        </Group>
-        <Group>
-          <GroupName>Startup</GroupName>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>

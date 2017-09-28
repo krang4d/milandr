@@ -24,8 +24,8 @@ void Init_All_LEDs(void)
 void BlinkyLed(void)
 {
     uint16_t i;
-    PORT_ResetBits(MDR_PORTE, PORT_Pin_0);
-    for(i = 0; i<10000000; i++){;}
-    PORT_SetBits(MDR_PORTE, PORT_Pin_0);
-    for(i = 0; i<10000000; i++){;} 
+    PORT_ResetBits(MDR_PORTE, PORT_Pin_1);
+    for(i = 0; i<1000000; i++){;}
+    PORT_SetBits(MDR_PORTE, PORT_Pin_1);
+    for(i = 0; i<1000000; i++){;} 
 }

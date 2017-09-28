@@ -1,12 +1,12 @@
-#include "MDR32F9Qx_config.h"
-#include "MDR32Fx.h"
+#include "MDR32Fx.h"                    // Device header
+#include "MDR32F9Qx_config.h"           // Milandr::Device:Startup
 #include "MDR32F9Qx_uart.h"             // Milandr::Drivers:UART
 #include "MDR32F9Qx_rst_clk.h"          // Milandr::Drivers:RST_CLK
 #include "MDR32F9Qx_port.h"             // Milandr::Drivers:PORT
 
-#include "init_ports.h"
-#include "init_uart.h"
-#include "init_spi.h"
+#include "Module/init_ports.h"
+#include "Module/init_uart.h"
+#include "Module/init_spi.h"
 
 void UART2_IRQHandler(void)
 {
@@ -22,17 +22,21 @@ void UART2_IRQHandler(void)
 void CPU_init (void)
 {
 	RST_CLK_DeInit();
+  //Необходимая пауза для работы Flash-памяти программ
+  MDR_EEPROM->CMD |= (0 << 3);
 
-	MDR_RST_CLK->HS_CONTROL=0x00000001;            			//включили HSE, режим осциллятор (16МГц)
-	while((MDR_RST_CLK->CLOCK_STATUS&0x04)==0x00); 			//подождали пока HSE выйдет в штатный режим
-	MDR_EEPROM->CMD=5<<3;	
+  MDR_RST_CLK->HS_CONTROL = 0x01; // вкл. HSE осцилятора 
+  while ((MDR_RST_CLK->CLOCK_STATUS & (1 << 2)) == 0x00); // ждем пока HSE выйдет в рабочий режим 
 
-	MDR_RST_CLK->PLL_CONTROL=(8<<8)|(1<<2);            //включили PLL CPU и задали к-т умножения;
-	while((MDR_RST_CLK->CLOCK_STATUS&0x02)==0x00);      //подождали пока PLL CPU выйдет в штатный режим
+  MDR_RST_CLK->PLL_CONTROL = ((1 << 2) | (3 << 8)); //вкл. PLL | коэф. умножения = 4
+  while((MDR_RST_CLK->CLOCK_STATUS & 0x02) != 0x02); //ждем когда PLL выйдет в раб. режим
 
-	MDR_EEPROM->CMD=3<<3;                     //задали задержку для обращения к flash-памяти Delay = 3    
-	 
-	MDR_RST_CLK->CPU_CLOCK|=0x00000106;     
+  MDR_RST_CLK->CPU_CLOCK = (2 //источник для CPU_C1
+  | (0 << 2) //источник для CPU_C2
+  | (0 << 4) //предделитель для CPU_C3
+  | (1 << 8));//источник для HCLK
+  MDR_BKP->REG_0E |= (5 << 0); //режим встроенного регулятора напряжения DUcc(в зависимости от частоты МК)
+  MDR_BKP->REG_0E |= (5 << 3); //выбор доп.стабилизирующей нагрузки
 }
 
 RST_CLK_FreqTypeDef Clocks;

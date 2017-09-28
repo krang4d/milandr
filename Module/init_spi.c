@@ -10,15 +10,15 @@ void SPI_ini(void)
 
 	/* Configure SSP1 pins: TXD, CLK, FSS, RXD,*/
 	/* Configure PORTD pins 0, 1, 2, 3 */
-	PORT_InitStructure.PORT_Pin	= PORT_Pin_1 | PORT_Pin_2 | PORT_Pin_3;
+	PORT_InitStructure.PORT_Pin	= PORT_Pin_0 | PORT_Pin_1;
 	PORT_InitStructure.PORT_OE	= PORT_OE_OUT;
-	PORT_InitStructure.PORT_FUNC  = PORT_FUNC_MAIN;
+	PORT_InitStructure.PORT_FUNC  = PORT_FUNC_ALTER;
 	PORT_InitStructure.PORT_MODE  = PORT_MODE_DIGITAL;
 	PORT_InitStructure.PORT_PD	= PORT_PD_DRIVER;
 	PORT_InitStructure.PORT_SPEED = PORT_SPEED_FAST;
 	PORT_Init(MDR_PORTC, &PORT_InitStructure);
 
-	PORT_InitStructure.PORT_Pin   = PORT_Pin_3;
+	PORT_InitStructure.PORT_Pin   = PORT_Pin_2 | PORT_Pin_3;
 	PORT_InitStructure.PORT_OE    = PORT_OE_IN;
 	PORT_InitStructure.PORT_MODE  = PORT_MODE_DIGITAL;
 	PORT_InitStructure.PORT_PD		= PORT_PD_DRIVER;
@@ -31,7 +31,7 @@ void SPI_ini(void)
 	
 	sSSP.SSP_SCR  = 0x00;
 	sSSP.SSP_CPSDVSR = 2;
-	sSSP.SSP_Mode = SSP_ModeMaster;
+	sSSP.SSP_Mode = SSP_ModeSlave;
 	sSSP.SSP_WordLength = SSP_WordLength16b;
 	sSSP.SSP_SPH = SSP_SPH_1Edge;
 	sSSP.SSP_SPO = SSP_SPO_Low;

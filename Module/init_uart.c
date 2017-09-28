@@ -5,9 +5,15 @@ static UART_InitTypeDef UART_InitStructure;
 
 void InitUart(void)
 {
-  /* Enables the HSI clock on PORTD */
-  RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTD,ENABLE);
+  /* Enables the HSE clock on PORTD */
+  //RST_CLK_HSIcmd(DISABLE);
+  /*HSE (High Speed External) clock mode and source selection*/
+  //RST_CLK_HSEconfig(RST_CLK_HSE_Bypass);
+  //RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1,RST_CLK_CPU_PLLmul1);
+  /* Enables clock of peripheral PORTD */
+  RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTD, ENABLE);
 
+  
   /* Fill PortInit structure*/
 	PortInit.PORT_PULL_UP = PORT_PULL_UP_OFF;
 	PortInit.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
@@ -33,12 +39,11 @@ void InitUart(void)
   
   /* Enables the CPU_CLK clock on UART2 */
   RST_CLK_PCLKcmd(RST_CLK_PCLK_UART2, ENABLE);
+   /* Set the HCLK division factor = 1 for UART2 */
+	UART_BRGInit(MDR_UART2, UART_HCLKdiv1);
   
+  /*Config interrupt*/
   NVIC_EnableIRQ(UART2_IRQn);
-  
-  /* Set the HCLK division factor = 1 for UART2 */
-	UART_BRGInit(MDR_UART2, UART_HCLKdiv128);
-
   UART_ITConfig(MDR_UART2, UART_IT_RX, ENABLE);
   
 	/* Initialize UART_InitStructure */
@@ -70,12 +75,11 @@ int SendChar(char ch)
 
 int SendHello(void)
 {
-  int i;
+  uint16_t i;
   char str[] = "Hellow\n";
   for ( i=0; i<7; i++)
   {
     UART_SendData (MDR_UART2,(uint16_t)str[i]);
   }
-
 	return 0;
 }
