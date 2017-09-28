@@ -1,23 +1,7 @@
-#include "MDR32F9Qx_config.h"
-#include "MDR32Fx.h"
-#include "MDR32F9Qx_uart.h"
-#include "MDR32F9Qx_port.h"
-#include "MDR32F9Qx_rst_clk.h"
 #include "init_uart.h"
 
 static PORT_InitTypeDef PortInit;
 static UART_InitTypeDef UART_InitStructure;
-
-uint16_t data;
-void UART2_IRQHandler(void)
-{
-  if (UART_GetITStatusMasked(MDR_UART2, UART_IT_RX)== SET)
-  {
-    UART_ClearITPendingBit(MDR_UART2, UART_IT_RX);
-    data = UART_ReceiveData(MDR_UART2);
-    UART_SendData(MDR_UART2, data);
-  }
-}
 
 void InitUart(void)
 {
@@ -31,7 +15,7 @@ void InitUart(void)
 	PortInit.PORT_PD = PORT_PD_DRIVER;
 	PortInit.PORT_GFEN = PORT_GFEN_OFF;
 	PortInit.PORT_FUNC = PORT_FUNC_ALTER;
-	PortInit.PORT_SPEED = PORT_SPEED_MAXFAST;
+	PortInit.PORT_SPEED = PORT_SPEED_FAST;
 	PortInit.PORT_MODE = PORT_MODE_DIGITAL;
   
   /* Configure PORTD pins 1 (UART2_TX) as output */
@@ -53,7 +37,7 @@ void InitUart(void)
   NVIC_EnableIRQ(UART2_IRQn);
   
   /* Set the HCLK division factor = 1 for UART2 */
-	UART_BRGInit(MDR_UART2, UART_HCLKdiv1 );
+	UART_BRGInit(MDR_UART2, UART_HCLKdiv128);
 
   UART_ITConfig(MDR_UART2, UART_IT_RX, ENABLE);
   
@@ -64,7 +48,7 @@ void InitUart(void)
 	UART_InitStructure.UART_Parity = UART_Parity_No;
 	UART_InitStructure.UART_FIFOMode = UART_FIFO_OFF;
 	UART_InitStructure.UART_HardwareFlowControl = UART_HardwareFlowControl_RXE | UART_HardwareFlowControl_TXE;
-
+ 
 	/* Configure UART2 parameters*/
 	UART_Init(MDR_UART2, &UART_InitStructure);
 
@@ -80,6 +64,18 @@ int SendChar(char ch)
 //  }
   /* Send Data from UART2 */
   UART_SendData (MDR_UART2,(uint16_t)ch);
+
+	return 0;
+}
+
+int SendHello(void)
+{
+  int i;
+  char str[] = "Hellow\n";
+  for ( i=0; i<7; i++)
+  {
+    UART_SendData (MDR_UART2,(uint16_t)str[i]);
+  }
 
 	return 0;
 }

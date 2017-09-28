@@ -2,10 +2,12 @@
 ".\objects\main.o"
 ".\objects\init_ports.o"
 ".\objects\init_uart.o"
+".\objects\init_spi.o"
 ".\objects\startup_mdr32f9qx.o"
 ".\objects\system_mdr32f9qx.o"
 ".\objects\mdr32f9qx_port.o"
 ".\objects\mdr32f9qx_rst_clk.o"
+".\objects\mdr32f9qx_ssp.o"
 ".\objects\mdr32f9qx_uart.o"
 --strict --scatter ".\Objects\milandr.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols

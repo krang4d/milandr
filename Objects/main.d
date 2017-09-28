@@ -14,3 +14,5 @@
 .\objects\main.o: init_ports.h
 .\objects\main.o: init_uart.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: init_spi.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\Milandr\MDR1986BExx\1.4.2\Libraries\MDR32F9Qx_StdPeriph_Driver\inc\MDR32F9Qx_ssp.h

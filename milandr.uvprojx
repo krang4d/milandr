@@ -150,7 +150,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>1</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -164,7 +164,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>BIN\UL2CM3.DLL</Driver>
+            <Driver>Segger\JL2CM3.dll</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -431,6 +431,11 @@
               <FileType>1</FileType>
               <FilePath>.\init_uart.c</FilePath>
             </File>
+            <File>
+              <FileName>init_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\init_spi.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -474,6 +479,12 @@
         </targetInfos>
       </component>
       <component Cclass="Drivers" Cgroup="RST_CLK" Cvendor="Milandr" Cversion="1.3.1" condition="CON_MDR1986Bxx">
+        <package name="MDR1986BExx" schemaVersion="1.3" url="https://github.com/in4lio/mdr1986x-pack-repo/raw/master/" vendor="Milandr" version="1.4.2"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Drivers" Cgroup="SSP" Cvendor="Milandr" Cversion="1.3.1" condition="CON_MDR1986Bxx">
         <package name="MDR1986BExx" schemaVersion="1.3" url="https://github.com/in4lio/mdr1986x-pack-repo/raw/master/" vendor="Milandr" version="1.4.2"/>
         <targetInfos>
           <targetInfo name="Target 1"/>

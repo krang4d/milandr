@@ -17,26 +17,19 @@ Library Manager: ArmAr.exe V5.06 update 1 (build 61)
 Hex Converter:   FromElf.exe V5.06 update 1 (build 61)
 CPU DLL:         SARMCM3.DLL V5.17
 Dialog DLL:      DCM.DLL V1.13.4.0
-Target DLL:      UL2CM3.DLL V1.156.1.0
+Target DLL:      Segger\JL2CM3.dll V2.99.16.0
 Dialog DLL:      TCM.DLL V1.14.6.0
  
 <h2>Project:</h2>
 C:\Users\pasha\Documents\Keil\milandr\milandr\milandr.uvprojx
-Project File Date:  09/26/2017
+Project File Date:  09/28/2017
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
-Rebuild target 'Target 1'
-compiling init_uart.c...
-compiling init_ports.c...
+Build target 'Target 1'
 compiling main.c...
-assembling startup_MDR32F9Qx.s...
-compiling system_MDR32F9Qx.c...
-compiling MDR32F9Qx_rst_clk.c...
-compiling MDR32F9Qx_port.c...
-compiling MDR32F9Qx_uart.c...
 linking...
-Program Size: Code=2496 RO-data=224 RW-data=8 ZI-data=1672  
+Program Size: Code=2876 RO-data=224 RW-data=4 ZI-data=1692  
 FromELF: creating hex file...
 ".\Objects\milandr.axf" - 0 Error(s), 0 Warning(s).
 
@@ -55,6 +48,7 @@ Package Vendor: Milandr
    * Component: Startup Version: 1.3.1
    * Component: PORT Version: 1.3.1
    * Component: RST_CLK Version: 1.3.1
+   * Component: SSP Version: 1.3.1
    * Component: UART Version: 1.3.1
 
 <h2>Collection of Component include folders:</h2>
@@ -86,10 +80,14 @@ Package Vendor: Milandr
       Include file:  Libraries\MDR32F9Qx_StdPeriph_Driver\inc\MDR32F9Qx_rst_clk.h
       Source file:   Libraries\MDR32F9Qx_StdPeriph_Driver\src\MDR32F9Qx_rst_clk.c
 
+   * Component: Milandr::Drivers:SSP:1.3.1
+      Include file:  Libraries\MDR32F9Qx_StdPeriph_Driver\inc\MDR32F9Qx_ssp.h
+      Source file:   Libraries\MDR32F9Qx_StdPeriph_Driver\src\MDR32F9Qx_ssp.c
+
    * Component: Milandr::Drivers:UART:1.3.1
       Include file:  Libraries\MDR32F9Qx_StdPeriph_Driver\inc\MDR32F9Qx_uart.h
       Source file:   Libraries\MDR32F9Qx_StdPeriph_Driver\src\MDR32F9Qx_uart.c
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
