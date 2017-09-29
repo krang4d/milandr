@@ -1,0 +1,56 @@
+#include "init_CPU.h"
+
+
+#define HCLK_SEL(CPU_C3)       (1<<8)
+#define CPU_C1_SEL(HSE)        (1<<1)
+#define PCLK_EN(RST_CLK)       (1<<4)
+#define HS_CONTROL(HSE_ON)     (1<<0)
+
+#define REG_0F(HSI_ON)        ~(1<<22)
+#define RTC_CS(ALRF)           (1<<2)
+#define PCLK(BKP)              (1<<27)
+#define CPU_C2_SEL(CPU_C2_SEL) (1<<2)
+
+#define PLL_CONTROL_PLL_CPU_ON  (1<<2) //PLL включена. 
+
+void HSE_Init(void)
+{
+  RST_CLK->PER_CLOK |= PCLK_EN(RST_CLK)                   //Включаем тактирование контроллера тактовой частоты (по умолчанию включено).
+  RST_CLK->HS_CONTROL = HS_CONTROL(HSE_ON);               //Разрешаем использование HSE генератора.
+  RST_CLK->CPU_CLOCK  = CPU_C1_SEL(HSE)|HCLK_SEL(CPU_C3); //Настраиваем "путь" сигнала и включаем тактирование от HSE генератора.
+  	RST_CLK->PER_CLOK |= PCLK(BKP);                       //Включаем тактирование часов (для костыля).
+	BKP->RTC_CS |= RTC_CS(ALRF);                            //Костыль для отключения HSI.
+	BKP->REG_0F  = BKP->REG_0F&(REG_0F(HSI_ON));            //Отключаем HSI.
+}
+ 
+void HSE_16Mhz_Init (void)                                                              //Сюда передаем частоту в разах "в 2 раза" например. 
+{
+	RST_CLK->PLL_CONTROL  = PLL_CONTROL_PLL_CPU_ON|(1<<8);                                //Включаем PLL, умножение в 2 раза.
+  RST_CLK->HS_CONTROL = HS_CONTROL(HSE_ON);                                             //Разрешаем использование HSE генератора. 
+	RST_CLK->CPU_CLOCK  = CPU_C1_SEL(HSE)|HCLK_SEL(CPU_C3)|CPU_C2_SEL(CPU_C2_SEL) ;       //Настраиваем "путь частоты" и включаем тактирование от HSE генератора.
+}
+
+void CPU_init (void)
+{
+	RST_CLK_DeInit();
+  /* Enables the HSE clock on PORTD */
+  //RST_CLK_HSIcmd(DISABLE);
+  /*HSE (High Speed External) clock mode and source selection*/
+  //RST_CLK_HSEconfig(RST_CLK_HSE_Bypass);
+  //RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1,RST_CLK_CPU_PLLmul1);
+  //Необходимая пауза для работы Flash-памяти программ
+  MDR_EEPROM->CMD |= (0 << 3);
+
+  MDR_RST_CLK->HS_CONTROL = 0x01; // вкл. HSE осцилятора 
+  while ((MDR_RST_CLK->CLOCK_STATUS & (1 << 2)) == 0x00); // ждем пока HSE выйдет в рабочий режим 
+
+  MDR_RST_CLK->PLL_CONTROL = ((1 << 2) | (3 << 8)); //вкл. PLL | коэф. умножения = 4
+  while((MDR_RST_CLK->CLOCK_STATUS & 0x02) != 0x02); //ждем когда PLL выйдет в раб. режим
+
+  MDR_RST_CLK->CPU_CLOCK = (2 //источник для CPU_C1
+  | (0 << 2) //источник для CPU_C2
+  | (0 << 4) //предделитель для CPU_C3
+  | (1 << 8));//источник для HCLK
+  MDR_BKP->REG_0E |= (5 << 0); //режим встроенного регулятора напряжения DUcc(в зависимости от частоты МК)
+  MDR_BKP->REG_0E |= (5 << 3); //выбор доп.стабилизирующей нагрузки
+}
