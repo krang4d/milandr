@@ -5,11 +5,6 @@ static UART_InitTypeDef UART_InitStructure;
 
 void InitUart(void)
 {
-  /* Enables the HSE clock on PORTD */
-  //RST_CLK_HSIcmd(DISABLE);
-  /*HSE (High Speed External) clock mode and source selection*/
-  //RST_CLK_HSEconfig(RST_CLK_HSE_Bypass);
-  //RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1,RST_CLK_CPU_PLLmul1);
   /* Enables clock of peripheral PORTD */
   RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTD, ENABLE);
 

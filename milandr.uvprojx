@@ -32,7 +32,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:MDR1986BE92$IDE\keil\SFD\MDR1986BE92.svd</SFDFile>
+          <SFDFile>SFD\MDR1986BE92.SFR</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -351,7 +351,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>4</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -373,7 +373,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\emdr1986x-std-per-lib-master\MDR32F9Qx_StdPeriph_Driver\inc;.\emdr1986x-std-per-lib-master\CMSIS\CM3\CoreSupport;.\emdr1986x-std-per-lib-master\CMSIS\CM3\DeviceSupport\MDR32F9Qx\startup;.\emdr1986x-std-per-lib-master\Config</IncludePath>
+              <IncludePath>.\emdr1986x-std-per-lib\MDR32F9Qx_StdPeriph_Driver\inc;.\emdr1986x-std-per-lib\CMSIS\CM3\CoreSupport;.\emdr1986x-std-per-lib\CMSIS\CM3\DeviceSupport\MDR32F9Qx\startup;.\emdr1986x-std-per-lib\Config</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -435,17 +435,17 @@
             <File>
               <FileName>init_ports.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\init_ports.c</FilePath>
-            </File>
-            <File>
-              <FileName>init_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\init_uart.c</FilePath>
+              <FilePath>.\Module\init_ports.c</FilePath>
             </File>
             <File>
               <FileName>init_spi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\init_spi.c</FilePath>
+              <FilePath>.\Module\init_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>init_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Module\init_uart.c</FilePath>
             </File>
           </Files>
         </Group>

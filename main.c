@@ -22,6 +22,11 @@ void UART2_IRQHandler(void)
 void CPU_init (void)
 {
 	RST_CLK_DeInit();
+  /* Enables the HSE clock on PORTD */
+  //RST_CLK_HSIcmd(DISABLE);
+  /*HSE (High Speed External) clock mode and source selection*/
+  //RST_CLK_HSEconfig(RST_CLK_HSE_Bypass);
+  //RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1,RST_CLK_CPU_PLLmul1);
   //Необходимая пауза для работы Flash-памяти программ
   MDR_EEPROM->CMD |= (0 << 3);
 
@@ -53,6 +58,7 @@ int main(void)
   SendHello();
   while(1)
   {
+    //Delay_ms(1000);
     SSP_SendData(MDR_SSP2, 0x33);
     SendHello();
     BlinkyLed();
