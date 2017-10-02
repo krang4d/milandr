@@ -56,7 +56,7 @@ void CPU_init (void)
 
 void SysTick_init(void)
 {
-  SysTick->LOAD = (8000000/1000) - 1;
+  SysTick->LOAD = (16000000/1000) - 1;
   SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |
                    SysTick_CTRL_TICKINT_Msk   |
                    SysTick_CTRL_ENABLE_Msk;                    /* Enable SysTick IRQ and SysTick Timer */

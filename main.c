@@ -29,21 +29,28 @@ void UART2_IRQHandler(void)
     data = UART_ReceiveData(MDR_UART2);
     UART_SendData(MDR_UART2, data);
   }
+  if (UART_GetITStatusMasked(MDR_UART2, UART_IT_TX)== SET)
+  {
+    UART_ClearITPendingBit(MDR_UART2, UART_IT_TX);
+    //UART_SendData(MDR_UART2, data);
+  }
 }
 
 RST_CLK_FreqTypeDef Clocks;
-
+char a = 0x77;
 int main(void)
 {
   //CPU_init();
   
   //SystemCoreClockUpdate();
   //RST_CLK_GetClocksFreq(&Clocks);
-
+  HSE_Init();
+  HSE_16Mhz_Init();
   Init_All_LEDs();
   SysTick_init();
-  //InitUart();
+  InitUart();
   //SendHello();
+  
   while(1)
   {
     PORT_ResetBits(MDR_PORTE, PORT_Pin_1);
@@ -53,5 +60,6 @@ int main(void)
     //SSP_SendData(MDR_SSP2, 0x33);
     //SendHello();
     //BlinkyLed();
+    SendChar(a);
   }
 }
