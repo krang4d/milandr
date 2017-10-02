@@ -447,6 +447,11 @@
               <FileType>1</FileType>
               <FilePath>.\Module\init_uart.c</FilePath>
             </File>
+            <File>
+              <FileName>init_CPU.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Module\init_CPU.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

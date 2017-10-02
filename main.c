@@ -7,7 +7,19 @@
 #include "Module/init_ports.h"
 #include "Module/init_uart.h"
 #include "Module/init_spi.h"
+#include "Module/init_cpu.h"
 
+volatile uint32_t Delay_dec = 0;
+void Delay_ms(uint32_t Delay_ms_Data)
+{
+  Delay_dec = Delay_ms_Data;
+  while(Delay_dec) {};
+}
+
+void SysTick_Handler(void)
+{
+  if (Delay_dec) Delay_dec--; 
+}
 void UART2_IRQHandler(void)
 {
   uint16_t data;
@@ -23,19 +35,23 @@ RST_CLK_FreqTypeDef Clocks;
 
 int main(void)
 {
-  CPU_init();
+  //CPU_init();
   
-  SystemCoreClockUpdate();
-  RST_CLK_GetClocksFreq(&Clocks);
+  //SystemCoreClockUpdate();
+  //RST_CLK_GetClocksFreq(&Clocks);
 
   Init_All_LEDs();
-  InitUart();
-  SendHello();
+  SysTick_init();
+  //InitUart();
+  //SendHello();
   while(1)
   {
-    //Delay_ms(1000);
-    SSP_SendData(MDR_SSP2, 0x33);
-    SendHello();
-    BlinkyLed();
+    PORT_ResetBits(MDR_PORTE, PORT_Pin_1);
+    Delay_ms(1000);
+    PORT_SetBits(MDR_PORTE, PORT_Pin_1);
+    Delay_ms(1000);
+    //SSP_SendData(MDR_SSP2, 0x33);
+    //SendHello();
+    //BlinkyLed();
   }
 }

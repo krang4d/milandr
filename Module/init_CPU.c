@@ -1,6 +1,5 @@
 #include "init_CPU.h"
 
-
 #define HCLK_SEL(CPU_C3)       (1<<8)
 #define CPU_C1_SEL(HSE)        (1<<1)
 #define PCLK_EN(RST_CLK)       (1<<4)
@@ -15,19 +14,19 @@
 
 void HSE_Init(void)
 {
-  RST_CLK->PER_CLOK |= PCLK_EN(RST_CLK)                   //Включаем тактирование контроллера тактовой частоты (по умолчанию включено).
-  RST_CLK->HS_CONTROL = HS_CONTROL(HSE_ON);               //Разрешаем использование HSE генератора.
-  RST_CLK->CPU_CLOCK  = CPU_C1_SEL(HSE)|HCLK_SEL(CPU_C3); //Настраиваем "путь" сигнала и включаем тактирование от HSE генератора.
-  	RST_CLK->PER_CLOK |= PCLK(BKP);                       //Включаем тактирование часов (для костыля).
-	BKP->RTC_CS |= RTC_CS(ALRF);                            //Костыль для отключения HSI.
-	BKP->REG_0F  = BKP->REG_0F&(REG_0F(HSI_ON));            //Отключаем HSI.
+  MDR_RST_CLK->PER_CLOCK |= PCLK_EN(RST_CLK);                   //Включаем тактирование контроллера тактовой частоты (по умолчанию включено).
+  MDR_RST_CLK->HS_CONTROL = HS_CONTROL(HSE_ON);               //Разрешаем использование HSE генератора.
+  MDR_RST_CLK->CPU_CLOCK  = CPU_C1_SEL(HSE)|HCLK_SEL(CPU_C3); //Настраиваем "путь" сигнала и включаем тактирование от HSE генератора.
+  MDR_RST_CLK->PER_CLOCK |= PCLK(BKP);                         //Включаем тактирование часов (для костыля).
+	MDR_BKP->RTC_CS |= RTC_CS(ALRF);                            //Костыль для отключения HSI.
+	MDR_BKP->REG_0F  = MDR_BKP->REG_0F&(REG_0F(HSI_ON));            //Отключаем HSI.
 }
  
 void HSE_16Mhz_Init (void)                                                              //Сюда передаем частоту в разах "в 2 раза" например. 
 {
-	RST_CLK->PLL_CONTROL  = PLL_CONTROL_PLL_CPU_ON|(1<<8);                                //Включаем PLL, умножение в 2 раза.
-  RST_CLK->HS_CONTROL = HS_CONTROL(HSE_ON);                                             //Разрешаем использование HSE генератора. 
-	RST_CLK->CPU_CLOCK  = CPU_C1_SEL(HSE)|HCLK_SEL(CPU_C3)|CPU_C2_SEL(CPU_C2_SEL) ;       //Настраиваем "путь частоты" и включаем тактирование от HSE генератора.
+	MDR_RST_CLK->PLL_CONTROL  = PLL_CONTROL_PLL_CPU_ON|(1<<8);                                //Включаем PLL, умножение в 2 раза.
+  MDR_RST_CLK->HS_CONTROL = HS_CONTROL(HSE_ON);                                             //Разрешаем использование HSE генератора. 
+	MDR_RST_CLK->CPU_CLOCK  = CPU_C1_SEL(HSE)|HCLK_SEL(CPU_C3)|CPU_C2_SEL(CPU_C2_SEL) ;       //Настраиваем "путь частоты" и включаем тактирование от HSE генератора.
 }
 
 void CPU_init (void)
@@ -54,3 +53,13 @@ void CPU_init (void)
   MDR_BKP->REG_0E |= (5 << 0); //режим встроенного регулятора напряжения DUcc(в зависимости от частоты МК)
   MDR_BKP->REG_0E |= (5 << 3); //выбор доп.стабилизирующей нагрузки
 }
+
+void SysTick_init(void)
+{
+  SysTick->LOAD = (8000000/1000) - 1;
+  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |
+                   SysTick_CTRL_TICKINT_Msk   |
+                   SysTick_CTRL_ENABLE_Msk;                    /* Enable SysTick IRQ and SysTick Timer */
+
+}
+
