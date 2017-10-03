@@ -31,10 +31,10 @@
 #include <MDR32Fx.h>
 
 //		<h> System Core Clock
-//			<o> HCLK (Hz) <1-160000000>
+//			<o> HCLK (Hz) <1-80000000>
 //			<i> System Core Clock
 //		</h> System Core Clock
-#define RTE_HCLK 160000000
+#define RTE_HCLK 80000000
 
 // <e> UART0 (Universal Asynchronous Receiver Transmitter) [Driver_USART0]
 #define   RTE_UART0                     0

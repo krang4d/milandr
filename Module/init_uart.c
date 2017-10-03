@@ -1,26 +1,24 @@
 #include "init_uart.h"
 
-static PORT_InitTypeDef PortInit;
-static UART_InitTypeDef UART_InitStructure;
+//static PORT_InitTypeDef PortInit;
+//static UART_InitTypeDef UART_InitStructure;
 
 void InitUart(void)
 {
-MDR_RST_CLK->PER_CLOCK |= (1UL << 22); //тактирование порта B
+  MDR_RST_CLK->PER_CLOCK |= (1UL << 24); //тактирование порта D
 
-  MDR_RST_CLK->PER_CLOCK |= (1UL << 22); //тактирование порта B
-
-  MDR_PORTB->FUNC |= ((3 << 0*2) | (3 << 1*2)); //режим работы порта
-  MDR_PORTB->ANALOG |= ((1 << 0) | (1 << 1)); //цифровой
-  MDR_PORTB->PWR |= ((3 << 0*2) | (3 << 1*2)); //максимально быcтрый
+  MDR_PORTD->FUNC |= ((2 << 1*2) | (2 << 0*2)); //режим работы порта
+  MDR_PORTD->ANALOG |= ((1 << 1) | (1 << 0)); //цифровой
+  MDR_PORTD->PWR |= ((3 << 1*2) | (3 << 0*2)); //максимально быcтрый
 
   MDR_RST_CLK->PER_CLOCK |= (1UL << 7); //тактирование UART2
   MDR_RST_CLK->UART_CLOCK = (0 /*установка делителя для UART1 = undefined*/
-  |(3 << 8) /*установка делителя для UART2 = 8*/
+  |(1 << 8) /*установка делителя для UART2 = 2*/
   |(0 << 24) /*разрешение тактовой частоты UART1*/
   |(1 << 25)); /*разрешение тактовой частоты UART2*/ 
 
   //Параметры делителя при частоте = 4000000Гц и скорости = 115200
-  MDR_UART2->IBRD = 0x2; //целая часть делителя скорости
+  MDR_UART2->IBRD = 0x1; //целая часть делителя скорости
   MDR_UART2->FBRD = 0xb; //дробная часть делителя скорости
   MDR_UART2->LCR_H = ((0 << 1) /*разрешение проверки четности*/
   |(0 << 2) /*четность/нечетность (нет контроля)*/
@@ -63,9 +61,9 @@ MDR_RST_CLK->PER_CLOCK |= (1UL << 22); //тактирование порта B
 //	//UART_BRGInit(MDR_UART2, UART_HCLKdiv1);
 //  
 //  /*Config interrupt*/
-//  NVIC_EnableIRQ(UART2_IRQn);
-//  UART_ITConfig(MDR_UART2, UART_IT_RX, ENABLE);
-//  UART_ITConfig(MDR_UART2, UART_IT_TX, ENABLE);
+  NVIC_EnableIRQ(UART2_IRQn);
+  UART_ITConfig(MDR_UART2, UART_IT_RX, ENABLE);
+  UART_ITConfig(MDR_UART2, UART_IT_TX, ENABLE);
 //  
 	/* Initialize UART_InitStructure */
 //	UART_InitStructure.UART_BaudRate = 115000;

@@ -31,32 +31,26 @@ void HSE_16Mhz_Init (void)                                                      
 
 void CPU_init (void)
 {
-	RST_CLK_DeInit();
-  /* Enables the HSE clock on PORTD */
-  //RST_CLK_HSIcmd(DISABLE);
-  /*HSE (High Speed External) clock mode and source selection*/
-  //RST_CLK_HSEconfig(RST_CLK_HSE_Bypass);
-  //RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1,RST_CLK_CPU_PLLmul1);
-  //Необходимая пауза для работы Flash-памяти программ
+//Необходимая пауза для работы Flash-памяти программ
   MDR_EEPROM->CMD |= (0 << 3);
 
   MDR_RST_CLK->HS_CONTROL = 0x01; // вкл. HSE осцилятора 
   while ((MDR_RST_CLK->CLOCK_STATUS & (1 << 2)) == 0x00); // ждем пока HSE выйдет в рабочий режим 
 
-  MDR_RST_CLK->PLL_CONTROL = ((1 << 2) | (3 << 8)); //вкл. PLL | коэф. умножения = 4
+  MDR_RST_CLK->PLL_CONTROL = ((0 << 2) | (1 << 8)); //вкл. PLL | коэф. умножения = 2
   while((MDR_RST_CLK->CLOCK_STATUS & 0x02) != 0x02); //ждем когда PLL выйдет в раб. режим
 
   MDR_RST_CLK->CPU_CLOCK = (2 //источник для CPU_C1
   | (0 << 2) //источник для CPU_C2
-  | (0 << 4) //предделитель для CPU_C3
+  | (8 << 4) //предделитель для CPU_C3
   | (1 << 8));//источник для HCLK
-  MDR_BKP->REG_0E |= (5 << 0); //режим встроенного регулятора напряжения DUcc(в зависимости от частоты МК)
-  MDR_BKP->REG_0E |= (5 << 3); //выбор доп.стабилизирующей нагрузки
+  MDR_BKP->REG_0E |= (0 << 0); //режим встроенного регулятора напряжения DUcc(в зависимости от частоты МК)
+  MDR_BKP->REG_0E |= (0 << 3); //выбор доп.стабилизирующей нагрузки
 }
 
 void SysTick_init(void)
 {
-  SysTick->LOAD = (16000000/1000) - 1;
+  SysTick->LOAD = (64000000/1000) - 1;
   SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |
                    SysTick_CTRL_TICKINT_Msk   |
                    SysTick_CTRL_ENABLE_Msk;                    /* Enable SysTick IRQ and SysTick Timer */
