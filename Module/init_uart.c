@@ -61,9 +61,9 @@ void InitUart(void)
 //	//UART_BRGInit(MDR_UART2, UART_HCLKdiv1);
 //  
 //  /*Config interrupt*/
-//  NVIC_EnableIRQ(UART2_IRQn);
-//  UART_ITConfig(MDR_UART2, UART_IT_RX, ENABLE);
-//  UART_ITConfig(MDR_UART2, UART_IT_TX, ENABLE);
+  NVIC_EnableIRQ(UART2_IRQn);
+  UART_ITConfig(MDR_UART2, UART_IT_RX, ENABLE);
+  UART_ITConfig(MDR_UART2, UART_IT_TX, ENABLE);
 //  
 	/* Initialize UART_InitStructure */
 //	UART_InitStructure.UART_BaudRate = 115000;

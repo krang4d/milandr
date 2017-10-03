@@ -23,16 +23,19 @@ void SysTick_Handler(void)
 void UART2_IRQHandler(void)
 {
   uint16_t data;
-  if (UART_GetITStatusMasked(MDR_UART2, UART_IT_RX)== SET)
+  if (MDR_UART2->MIS & UART_IT_RX) //(UART_GetITStatusMasked(MDR_UART2, UART_IT_RX)== SET)
   {
-    UART_ClearITPendingBit(MDR_UART2, UART_IT_RX);
-    data = UART_ReceiveData(MDR_UART2);
-    UART_SendData(MDR_UART2, data);
+    //UART_ClearITPendingBit(MDR_UART2, UART_IT_RX);
+    MDR_UART2->ICR |= UART_IT_RX;
+    MDR_PORTE->RXTX ^= PORT_Pin_2;
+    data = (uint16_t)(MDR_UART2->DR);
+    MDR_UART2->DR = (data & (uint16_t)0x0FF);
   }
-  if (UART_GetITStatusMasked(MDR_UART2, UART_IT_TX)== SET)
+  if (MDR_UART2->MIS & UART_IT_TX) //(UART_GetITStatusMasked(MDR_UART2, UART_IT_TX)== SET)
   {
-    UART_ClearITPendingBit(MDR_UART2, UART_IT_TX);
-    //UART_SendData(MDR_UART2, data);
+    //UART_ClearITPendingBit(MDR_UART2, UART_IT_TX);
+    MDR_UART2->ICR |= UART_IT_TX;
+    MDR_PORTE->RXTX ^= PORT_Pin_3;
   }
 }
 
@@ -53,13 +56,11 @@ int main(void)
   
   while(1)
   {
-    PORT_ResetBits(MDR_PORTE, PORT_Pin_1);
-    Delay_ms(1000);
-    PORT_SetBits(MDR_PORTE, PORT_Pin_1);
+    MDR_PORTE->RXTX ^= PORT_Pin_0;
     Delay_ms(1000);
     //SSP_SendData(MDR_SSP2, 0x33);
     //SendHello();
     //BlinkyLed();
-    SendChar(a);
+    //SendChar(a);
   }
 }
