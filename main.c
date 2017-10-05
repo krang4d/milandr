@@ -44,16 +44,15 @@ RST_CLK_FreqTypeDef Clocks;
 char a = 255;
 int main(void)
 {
-  //CPU_init();
-  
+  CPU_init();
   //SystemCoreClockUpdate();
   //RST_CLK_GetClocksFreq(&Clocks);
   //HSE_Init();
-  HSE_16Mhz_Init();
+  //HSE_16Mhz_Init();
   Init_All_LEDs();
   SysTick_init();
   InitUart();
-  SendHello();
+  //SendHello();
   
   while(1)
   {
