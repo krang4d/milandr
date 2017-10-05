@@ -41,14 +41,24 @@ void UART2_IRQHandler(void)
     MDR_PORTE->RXTX ^= PORT_Pin_3;
   }
 }
-//Обработчик прерывания таймера
+//Обработчик прерывания таймера1
 void Timer1_IRQHandler(void)
 {
   //Исполняемый код
-  MDR_PORTE->RXTX ^= PORT_Pin_0 | PORT_Pin_1;
+  MDR_PORTE->RXTX ^= PORT_Pin_0;
   MDR_TIMER1->CNT = 0x0000;
   MDR_TIMER1->STATUS &= ~(1 << 1);
   NVIC_ClearPendingIRQ(TIMER1_IRQn);
+ 
+}
+//Обработчик прерывания таймера2
+void Timer2_IRQHandler(void)
+{
+  //Исполняемый код
+  MDR_PORTE->RXTX ^= PORT_Pin_1;
+  MDR_TIMER2->CNT = 0x0000;
+  MDR_TIMER2->STATUS &= ~(1 << 1);
+  NVIC_ClearPendingIRQ(TIMER2_IRQn);
  
 }
 
@@ -61,7 +71,8 @@ int main(void)
   Init_All_LEDs();
   SysTick_init();
   InitUart();
-  InitTimer();
+  InitTimer1();
+  InitTimer2();
   SendString(str, 7);
   while(1)
   {
