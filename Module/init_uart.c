@@ -94,13 +94,13 @@ int SendChar(char ch)
 	return 0;
 }
 
-int SendHello(void)
+int SendString(char *str, int n)
 {
-  uint16_t i;
-  char str[] = "Hellow\n";
-  for ( i=0; i<7; i++)
+  int i;
+  for ( i=0; i<n; i++)
   {
     UART_SendData (MDR_UART2,(uint16_t)str[i]);
+    while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE)!= SET) ;
   }
 	return 0;
 }

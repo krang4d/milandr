@@ -457,6 +457,11 @@
               <FileType>1</FileType>
               <FilePath>.\Module\init_CPU.c</FilePath>
             </File>
+            <File>
+              <FileName>init_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Module\init_timer.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -500,6 +505,12 @@
         </targetInfos>
       </component>
       <component Cclass="Drivers" Cgroup="SSP" Cvendor="Milandr" Cversion="1.3.1" condition="CON_MDR1986Bxx">
+        <package name="MDR1986BExx" schemaVersion="1.3" url="https://github.com/in4lio/mdr1986x-pack-repo/raw/master/" vendor="Milandr" version="1.4.2"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Drivers" Cgroup="TIMER" Cvendor="Milandr" Cversion="1.3.1" condition="CON_MDR1986Bxx">
         <package name="MDR1986BExx" schemaVersion="1.3" url="https://github.com/in4lio/mdr1986x-pack-repo/raw/master/" vendor="Milandr" version="1.4.2"/>
         <targetInfos>
           <targetInfo name="Target 1"/>

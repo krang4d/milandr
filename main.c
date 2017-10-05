@@ -3,11 +3,13 @@
 #include "MDR32F9Qx_uart.h"             // Milandr::Drivers:UART
 #include "MDR32F9Qx_rst_clk.h"          // Milandr::Drivers:RST_CLK
 #include "MDR32F9Qx_port.h"             // Milandr::Drivers:PORT
+#include "MDR32F9Qx_timer.h"            // Milandr::Drivers:TIMER
 
 #include "Module/init_ports.h"
 #include "Module/init_uart.h"
 #include "Module/init_spi.h"
 #include "Module/init_cpu.h"
+#include "Module/init_timer.h"
 
 volatile uint32_t Delay_dec = 0;
 void Delay_ms(uint32_t Delay_ms_Data)
@@ -39,25 +41,32 @@ void UART2_IRQHandler(void)
     MDR_PORTE->RXTX ^= PORT_Pin_3;
   }
 }
+//Обработчик прерывания таймера
+void Timer1_IRQHandler(void)
+{
+  //Исполняемый код
+  MDR_PORTE->RXTX ^= PORT_Pin_0 | PORT_Pin_1;
+  MDR_TIMER1->CNT = 0x0000;
+  MDR_TIMER1->STATUS &= ~(1 << 1);
+  NVIC_ClearPendingIRQ(TIMER1_IRQn);
+ 
+}
 
 RST_CLK_FreqTypeDef Clocks;
 char a = 255;
+char str[] = "Hellow\n";
 int main(void)
 {
   CPU_init();
-  //SystemCoreClockUpdate();
-  //RST_CLK_GetClocksFreq(&Clocks);
-  //HSE_Init();
-  //HSE_16Mhz_Init();
   Init_All_LEDs();
   SysTick_init();
   InitUart();
-  //SendHello();
-  
+  InitTimer();
+  SendString(str, 7);
   while(1)
   {
-    MDR_PORTE->RXTX ^= PORT_Pin_0;
-    Delay_ms(1000);
+    
+    Delay_ms(100);
     //SSP_SendData(MDR_SSP2, 0x33);
     //SendHello();
     //BlinkyLed();
