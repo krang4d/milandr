@@ -71,9 +71,10 @@ int main(void)
   Init_All_LEDs();
   SysTick_init();
   InitUart();
-  InitTimer1();
-  InitTimer2();
-  SendString(str, 7);
+  //InitTimer1();
+  //InitTimer2();
+  InitPWM();
+  //SendString(str, 7);
   while(1)
   {
     
