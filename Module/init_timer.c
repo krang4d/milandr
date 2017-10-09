@@ -1,13 +1,13 @@
 #include "init_timer.h"
 
-TIMER_CntInitTypeDef sTIM_CntInit;
-TIMER_ChnInitTypeDef sTIM_ChnInit;
-TIMER_ChnOutInitTypeDef sTIM_ChnOutInit;
+static TIMER_CntInitTypeDef sTIM_CntInit;
+static TIMER_ChnInitTypeDef sTIM_ChnInit;
+static TIMER_ChnOutInitTypeDef sTIM_ChnOutInit;
 static PORT_InitTypeDef PORT_InitStructure;
 
-uint16_t CCR1_Val = 0x2;
-uint16_t CCR2_Val = 0x3;
-uint16_t CCR3_Val = 0x7;
+static uint16_t CCR1_Val = 0x2;
+static uint16_t CCR2_Val = 0x3;
+static uint16_t CCR3_Val = 0x7;
 
 void InitTimer1(void)
 {
@@ -31,7 +31,7 @@ void InitTimer2(void)
   MDR_RST_CLK->PER_CLOCK |= 1 << 15; //разрешение тактирования Таймера 2
   MDR_RST_CLK->TIM_CLOCK |= (
   (0 << 8) /*делитель тактовой частоты Таймера 2*/
-  |(1 << 25) /*разешение тактирования Таймера 2*/
+  |(1 << 25) /*разрешение тактирования Таймера 2*/
   );
   //NVIC_EnableIRQ(TIMER2_IRQn);
   MDR_TIMER2->CNTRL = 1; /*счет вверх по TIM_CLK, таймер вкл.*/
@@ -55,8 +55,8 @@ void InitPWM(void)
   SCB->AIRCR = 0x05FA0000 | ((uint32_t)0x500);
   SCB->VTOR = 0x08000000;
   /* Disable all interrupt */
-  NVIC->ICPR[0] = 0xFFFFFFFF;
-  NVIC->ICER[0] = 0xFFFFFFFF;
+  //NVIC->ICPR[0] = 0xFFFFFFFF;
+  //NVIC->ICER[0] = 0xFFFFFFFF;
 
   /* Reset PORTB settings */
   PORT_DeInit(MDR_PORTA);

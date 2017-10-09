@@ -4,6 +4,7 @@
 #include "MDR32F9Qx_rst_clk.h"          // Milandr::Drivers:RST_CLK
 #include "MDR32F9Qx_port.h"             // Milandr::Drivers:PORT
 #include "MDR32F9Qx_timer.h"            // Milandr::Drivers:TIMER
+#include "MDR32F9Qx_ssp.h"              // Milandr::Drivers:SSP
 
 #include "Module/init_ports.h"
 #include "Module/init_uart.h"
@@ -59,7 +60,6 @@ void Timer2_IRQHandler(void)
   MDR_TIMER2->CNT = 0x0000;
   MDR_TIMER2->STATUS &= ~(1 << 1);
   NVIC_ClearPendingIRQ(TIMER2_IRQn);
- 
 }
 
 RST_CLK_FreqTypeDef Clocks;
@@ -78,7 +78,7 @@ int main(void)
   while(1)
   {
     
-    Delay_ms(100);
+    //Delay_ms(100);
     //SSP_SendData(MDR_SSP2, 0x33);
     //SendHello();
     //BlinkyLed();
