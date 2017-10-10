@@ -71,15 +71,17 @@ int main(void)
   Init_All_LEDs();
   SysTick_init();
   InitUart();
+  //SPI_ini();
   //InitTimer1();
   //InitTimer2();
   InitPWM();
+  SPI_Master_Init();
   //SendString(str, 7);
   while(1)
   {
     
-    //Delay_ms(100);
-    //SSP_SendData(MDR_SSP2, 0x33);
+    Delay_ms(1000);
+    SSP_SendData(MDR_SSP1, 0xAA);
     //SendHello();
     //BlinkyLed();
     //SendChar(a);
