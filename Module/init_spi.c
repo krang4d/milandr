@@ -71,7 +71,7 @@ void SPI1_Master_Init(void)
 
 void SSP2_Master_Init(void)
  {
-  /* Configure SSP1 pins: RXD, FSS, CLK, TXD,*/
+  /* Configure SSP2 pins: RXD, FSS, CLK, TXD,*/
 	/* Configure PORTD pins 2, 3, 5, 6 */
   MDR_RST_CLK->PER_CLOCK |= (1UL << 24); //тактирование порта D
 
@@ -80,18 +80,18 @@ void SSP2_Master_Init(void)
   MDR_PORTD->PWR |= ((3 << 3*2) | (3 << 5*2) | (3 << 2*2) | (3 << 6*2)); //максимально быcтрый
 
   MDR_RST_CLK->PER_CLOCK |= (1 << 20); //тактирование SSP2
-  MDR_RST_CLK->SSP_CLOCK = ((0 << 8)|(1 << 25)); //предделитель = 1, разрешение тактирования SSP2 
+  MDR_RST_CLK->SSP_CLOCK = ((2 << 8)|(1 << 25)); //предделитель = 4, разрешение тактирования SSP2 
 
-  MDR_SSP2->CPSR = 10; //делитель тактовой частоты;
+  MDR_SSP2->CPSR = 2; //делитель тактовой частоты;
   MDR_SSP2->CR0 = (0 << 6); //полярность сигнала
   MDR_SSP2->CR0 |= (0 << 7); //фаза сигнала
-  MDR_SSP2->CR0 |= (7 << 8); //коэффициент скорости
+  MDR_SSP2->CR0 |= (9 << 8); //коэффициент скорости
   MDR_SSP2->CR0 |= (0 << 4); //формат кадра
   MDR_SSP2->CR0 |= 7; //длина слова = 8 бит
   MDR_SSP2->CR1 |= ((0 << 2)|(1 << 1)); //режим работы и включение приемопередатчика SSP
  }
 
-void SPI2_Slave_Init(void)
+void SPI1_Slave_Init(void)
 {
   /* Configure SSP1 pins: TXD, CLK, FSS, RXD,*/
 	/* Configure PORTF pins 0, 1, 2, 3 */
@@ -114,9 +114,9 @@ void SPI2_Slave_Init(void)
   MDR_SSP1->CR1 |= (1 << 3); //запрет выходных линий
 }
 
-void SSP2_Slave_Init(void)
+void SPI2_Slave_Init(void)
  {
-  /* Configure SSP1 pins: RXD, FSS, CLK, TXD,*/
+  /* Configure SSP2 pins: RXD, FSS, CLK, TXD,*/
 	/* Configure PORTD pins 2, 3, 5, 6 */
   MDR_RST_CLK->PER_CLOCK |= (1UL << 24); //тактирование порта D
 
@@ -125,19 +125,14 @@ void SSP2_Slave_Init(void)
   MDR_PORTD->PWR |= ((3 << 3*2) | (3 << 5*2) | (3 << 2*2) | (3 << 6*2)); //максимально быcтрый
 
   MDR_RST_CLK->PER_CLOCK |= (1 << 20); //тактирование SSP2
-  MDR_RST_CLK->SSP_CLOCK = ((0 << 8)|(1 << 25)); //предделитель = 1, разрешение тактирования SSP2 
+  MDR_RST_CLK->SSP_CLOCK = ((2 << 8)|(1 << 25)); //предделитель = 4, разрешение тактирования SSP2 
 
-  MDR_SSP2->CPSR = 10; //делитель тактовой частоты;
+  MDR_SSP2->CPSR = 2; //делитель тактовой частоты;
   MDR_SSP2->CR0 = (0 << 6); //полярность сигнала
   MDR_SSP2->CR0 |= (0 << 7); //фаза сигнала
-  MDR_SSP2->CR0 |= (7 << 8); //коэффициент скорости
+  MDR_SSP2->CR0 |= (9 << 8); //коэффициент скорости
   MDR_SSP2->CR0 |= (0 << 4); //формат кадра
   MDR_SSP2->CR0 |= 7; //длина слова = 8 бит
   MDR_SSP2->CR1 |= ((1 << 2)|(1 << 1)); //режим работы и включение приемопередатчика SSP
-  MDR_SSP2->CR1 |= (0 << 3); //запрет выходных линий
-   
-  //  /*Config interrupt*/
-  NVIC_EnableIRQ(SSP2_IRQn);
-  SSP_ITConfig(MDR_SSP2, SSP_IT_RX, ENABLE);
-  //SSP_ITConfig(MDR_SSP1, SSP_IT_TX, ENABLE);
+  MDR_SSP2->CR1 |= 0 << 3; //запрет выходных линий
 }

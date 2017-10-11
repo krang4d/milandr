@@ -39,7 +39,7 @@ int main(void)
   //SendString(str, 7);
   while(1)
   {
-    Delay_mks(10);
+    Delay_mks(1000);
     SSP_SendData(MDR_SSP1, a);
     //SendHello();
     //BlinkyLed();
