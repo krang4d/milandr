@@ -7,7 +7,9 @@
 #include "MDR32F9Qx_ssp.h"              // Milandr::Drivers:SSP
 
 void SPI_ini(void);
-void SPI_Master_Init(void);
-void SPI_Slave_Init(void);
+void SPI1_Master_Init(void);
+void SPI2_Master_Init(void);
+void SPI1_Slave_Init(void);
+void SPI2_Slave_Init(void);
 
 #endif

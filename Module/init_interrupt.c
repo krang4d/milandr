@@ -1,10 +1,21 @@
 #include "init_interrupt.h"
 
-extern volatile uint32_t Delay_dec;
-
 void SysTick_Handler(void)
 {
   if (Delay_dec) Delay_dec--; 
+}
+
+void SSP2_IRQHandler(void)
+{
+  uint16_t data;
+  if (MDR_SSP2->MIS & SSP_IT_RX) //(SSP_GetITStatusMasked(MDR_SSP2, SSP_IT_RX)== SET)
+  {
+    //SSP_ClearITPendingBit(MDR_SSP2, SSP_IT_RX);
+    MDR_SSP2->ICR |= SSP_IT_RX;
+    //MDR_PORTE->RXTX ^= PORT_Pin_2;
+    data = (uint16_t)(MDR_SSP2->DR);
+    MDR_UART2->DR = (data & (uint16_t)0x0FF);
+  }
 }
 
 void UART2_IRQHandler(void)
