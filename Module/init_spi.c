@@ -135,4 +135,8 @@ void SPI2_Slave_Init(void)
   MDR_SSP2->CR0 |= 7; //длина слова = 8 бит
   MDR_SSP2->CR1 |= ((1 << 2)|(1 << 1)); //режим работы и включение приемопередатчика SSP
   MDR_SSP2->CR1 |= 0 << 3; //запрет выходных линий
+   
+  NVIC_EnableIRQ(SSP2_IRQn);
+  SSP_ITConfig(MDR_SSP2, SSP_IT_RX, ENABLE);
+  //SSP_ITConfig(MDR_SSP2, SSP_IT_TX, ENABLE);
 }

@@ -33,13 +33,13 @@ int main(void)
   //SPI_ini();
   //InitTimer1();
   //InitTimer2();
-  InitPWM();
-  SPI1_Master_Init();
+  //InitPWM();
   SPI2_Slave_Init();
+  SPI1_Master_Init();
   //SendString(str, 7);
   while(1)
   {
-    Delay_mks(1000);
+    Delay_mks(1000000);
     SSP_SendData(MDR_SSP1, a);
     //SendHello();
     //BlinkyLed();

@@ -12,9 +12,9 @@ void SSP2_IRQHandler(void)
   {
     //SSP_ClearITPendingBit(MDR_SSP2, SSP_IT_RX);
     MDR_SSP2->ICR |= SSP_IT_RX;
-    //MDR_PORTE->RXTX ^= PORT_Pin_2;
+    MDR_PORTE->RXTX ^= PORT_Pin_0;
     data = (uint16_t)(MDR_SSP2->DR);
-    MDR_UART2->DR = (data & (uint16_t)0x0FF);
+    //MDR_UART2->DR = (data & (uint16_t)0x0FF);
   }
 }
 
