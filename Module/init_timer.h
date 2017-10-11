@@ -1,3 +1,6 @@
+#ifndef __INIT_TIMER_H
+#define __INIT_TIMER_H
+
 #include "MDR32F9Qx_config.h"
 #include "MDR32Fx.h"
 #include "MDR32F9Qx_rst_clk.h"          // Milandr::Drivers:RST_CLK
@@ -15,3 +18,5 @@ void InitPWM(void);
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
+
+#endif

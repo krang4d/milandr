@@ -1,3 +1,6 @@
+#ifndef __INIT_UART_H
+#define __INIT_UART_H
+
 #include "MDR32F9Qx_config.h"
 #include "MDR32Fx.h"
 #include "MDR32F9Qx_rst_clk.h"          // Milandr::Drivers:RST_CLK
@@ -17,3 +20,4 @@ int fputc(int ch, FILE *f);
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
+#endif

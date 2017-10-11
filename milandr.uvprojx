@@ -462,6 +462,11 @@
               <FileType>1</FileType>
               <FilePath>.\Module\init_timer.c</FilePath>
             </File>
+            <File>
+              <FileName>init_interrupt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Module\init_interrupt.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
