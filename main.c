@@ -21,7 +21,8 @@ void Delay_mks(uint32_t Delay_mks_Data)
 }
 
 RST_CLK_FreqTypeDef Clocks;
-char a = 0xFF;
+char a = 'A';
+char data = 0;
 char str[] = "Hellow\n";
 
 int main(void)
@@ -39,8 +40,14 @@ int main(void)
   //SendString(str, 7);
   while(1)
   {
-    Delay_mks(1000000);
     SSP_SendData(MDR_SSP1, a);
+    Delay_mks(1000000);
+    data = SSP_ReceiveData(MDR_SSP2);
+    switch(data){
+      case 'A': MDR_PORTE->RXTX ^= PORT_Pin_1;
+      default : MDR_PORTE->RXTX ^= PORT_Pin_2;
+    }
+      
     //SendHello();
     //BlinkyLed();
     //SendChar(a);
