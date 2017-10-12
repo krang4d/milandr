@@ -21,7 +21,7 @@ void Delay_mks(uint32_t Delay_mks_Data)
 }
 
 RST_CLK_FreqTypeDef Clocks;
-char a = 0xAA;
+char a = 0xFF;
 char str[] = "Hellow\n";
 
 int main(void)
@@ -29,13 +29,13 @@ int main(void)
   CPU_init();
   Init_All_LEDs();
   SysTick_init();
-  InitUart();
+  //InitUart();
   //SPI_ini();
   //InitTimer1();
   //InitTimer2();
-  InitPWM();
-  SPI1_Master_Init();
+  //InitPWM(); 
   SPI2_Slave_Init();
+  SPI1_Master_Init();
   //SendString(str, 7);
   while(1)
   {
