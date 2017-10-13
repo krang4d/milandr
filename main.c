@@ -35,13 +35,14 @@ int main(void)
   //InitTimer1();
   //InitTimer2();
   //InitPWM(); 
-  SPI2_Slave_Init();
   SPI1_Master_Init();
+  SPI2_Slave_Init();
   //SendString(str, 7);
   while(1)
   {
-    SSP_SendData(MDR_SSP1, a);
     Delay_mks(1000000);
+    SSP_SendData(MDR_SSP1, a);
+    Delay_mks(10);
     data = SSP_ReceiveData(MDR_SSP2);
     switch(data){
       case 'A': MDR_PORTE->RXTX ^= PORT_Pin_1;

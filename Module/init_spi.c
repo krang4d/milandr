@@ -53,7 +53,7 @@ void SPI1_Master_Init(void)
   MDR_PORTF->PWR |= ((3 << 2*2) | (3 << 1*2) | (3 << 3*2) | (3 << 0*2)); //максимально быcтрый
 
   MDR_RST_CLK->PER_CLOCK |= (1 << 8); //тактирование SSP1
-  MDR_RST_CLK->SSP_CLOCK = ((2 << 0)|(1 << 24)); //предделитель = 4, разрешение тактирования SSP1 
+  MDR_RST_CLK->SSP_CLOCK |= ((2 << 0)|(1 << 24)); //предделитель = 4, разрешение тактирования SSP1 
 
   MDR_SSP1->CPSR = 2; //делитель тактовой частоты;
   MDR_SSP1->CR0 = (1 << 6); //полярность сигнала
@@ -69,7 +69,7 @@ void SPI1_Master_Init(void)
   //SSP_ITConfig(MDR_SSP1, SSP_IT_TX, ENABLE);
 }
 
-void SSP2_Master_Init(void)
+void SPI2_Master_Init(void)
  {
   /* Configure SSP2 pins: RXD, FSS, CLK, TXD,*/
 	/* Configure PORTD pins 2, 3, 5, 6 */
@@ -80,7 +80,7 @@ void SSP2_Master_Init(void)
   MDR_PORTD->PWR |= ((3 << 3*2) | (3 << 5*2) | (3 << 2*2) | (3 << 6*2)); //максимально быcтрый
 
   MDR_RST_CLK->PER_CLOCK |= (1 << 20); //тактирование SSP2
-  MDR_RST_CLK->SSP_CLOCK = ((2 << 8)|(1 << 25)); //предделитель = 4, разрешение тактирования SSP2 
+  MDR_RST_CLK->SSP_CLOCK |= ((2 << 8)|(1 << 25)); //предделитель = 4, разрешение тактирования SSP2 
 
   MDR_SSP2->CPSR = 2; //делитель тактовой частоты;
   MDR_SSP2->CR0 = (1 << 6); //полярность сигнала
@@ -102,7 +102,7 @@ void SPI1_Slave_Init(void)
   MDR_PORTF->PWR |= ((3 << 2*2) | (3 << 1*2) | (3 << 3*2) | (3 << 0*2)); //максимально быcтрый
 
   MDR_RST_CLK->PER_CLOCK |= (1 << 8); //тактирование SSP1
-  MDR_RST_CLK->SSP_CLOCK = ((2 << 0)|(1 << 24)); //предделитель = 4, разрешение тактирования SSP1 
+  MDR_RST_CLK->SSP_CLOCK |= ((2 << 0)|(1 << 24)); //предделитель = 4, разрешение тактирования SSP1 
 
   MDR_SSP1->CPSR = 2; //делитель тактовой частоты;
   MDR_SSP1->CR0 = (1 << 6); //полярность сигнала
@@ -125,7 +125,7 @@ void SPI2_Slave_Init(void)
   MDR_PORTD->PWR |= ((3 << 3*2) | (3 << 5*2) | (3 << 2*2) | (3 << 6*2)); //максимально быcтрый
 
   MDR_RST_CLK->PER_CLOCK |= (1 << 20); //тактирование SSP2
-  MDR_RST_CLK->SSP_CLOCK = ((2 << 8)|(1 << 25)); //предделитель = 4, разрешение тактирования SSP2 
+  MDR_RST_CLK->SSP_CLOCK |= ((2 << 8)|(1 << 25)); //предделитель = 4, разрешение тактирования SSP2 
 
   MDR_SSP2->CPSR = 2; //делитель тактовой частоты;
   MDR_SSP2->CR0 = (1 << 6); //полярность сигнала
