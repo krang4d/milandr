@@ -85,22 +85,16 @@ void InitUart(void)
 int SendChar(char ch)
 {
   /* Check TXFE flag */
-  while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE)!= SET)
-  {
-  }
+  while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE)!= SET) ;
   /* Send Data from UART2 */
   UART_SendData (MDR_UART2,(uint16_t)ch);
-
 	return 0;
 }
 
-int SendString(char *str, int n)
+int SendString(char *str, int len)
 {
   int i;
-  for ( i=0; i<n; i++)
-  {
-    UART_SendData (MDR_UART2,(uint16_t)str[i]);
-    while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE)!= SET) ;
-  }
+  for ( i=0; i<len; i++)
+    SendChar(str[i]);
 	return 0;
 }
