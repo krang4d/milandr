@@ -1,4 +1,10 @@
 #include "protocol_brp.h"
+#include "init_ports.h"
+#include "init_uart.h"
+#include "init_spi.h"
+#include "init_cpu.h"
+#include "init_timer.h"
+#include "init_interrupt.h"
 
 static PORT_InitTypeDef PORT_InitStructure;
 
@@ -22,7 +28,7 @@ void getData(uint16_t data)
     case D8MHz    :   {SendChar(data);                                                                                break;}
     case DOFF     :   {SendChar(data);  TIMER_Cmd(MDR_TIMER1,DISABLE); TIMER_Cmd(MDR_TIMER2,DISABLE);                 break;}
     case CHECK    :   {SendChar(data);  /***********************************************************/                 break;}
-    case STATUS   :   {SendChar(data);                                                                                break;}
+    case STATUS   :   {SendChar(getStatus());                                                                         break;}
       default     :   SendChar(WRONG_WAY);
   }
 }
@@ -55,23 +61,27 @@ void initBRP(void)
   //выключение цифрового интерфейса и дискретного
 }
 
-uint16_t getStatus(void)
+uint8_t getStatus(void)
 {
-  uint16_t status = 0x00;
-  uint8_t bitstatus;
+  uint8_t status = 0x00;
   
   if ((uint8_t)Bit_SET == PORT_ReadInputDataBit(MDR_PORTA, PORT_Pin_6)) status &= ~(1 << 0);
     else status |= (1 << 0);
+  if ((uint8_t)Bit_SET == PORT_ReadInputDataBit(MDR_PORTA, PORT_Pin_7)) { status &= ~(1 << 2);  }
+    else status |= ((1 << 1) | (1 << 2));
   if ((uint8_t)Bit_SET == PORT_ReadInputDataBit(MDR_PORTA, PORT_Pin_7)) status &= ~(1 << 1) | (1 << 2); 
     else {
       if ((uint8_t)Bit_SET == PORT_ReadInputDataBit(MDR_PORTA, PORT_Pin_5)) {status |= (1 << 1); status &= ~(1 << 2);}
         else {status |= (1 << 2); status &= ~(1 << 1);}
     }
-  if ((MDR_SSP1->CR1) & (1 << 1)) ;
-    else { 
-      if ((MDR_SSP1->SR) & (1 << 4)) {} 
+  if ((MDR_SSP1->CR1) & (1 << 1)){
+    if((MDR_SSP1->SR) & (1 << 4)) status |= (1 << 3) | (1 << 4);
+      else { status |= (1 << 3); status &= ~(1 << 4); } 
+  }
+  else status &= ~((1 << 3) | (1 << 4));
   
-  if ((uint8_t)Bit_SET == PORT_ReadInputDataBit(MDR_PORTA, PORT_Pin_7)) { status &= ~(1 << 2);  } else status |= ((1 << 1) | (1 << 2));
+  // <<< 5-7 биты дискрктного интерфейса
+  
   return status;
 }
 

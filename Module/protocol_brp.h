@@ -2,12 +2,6 @@
 #define __PROTOCOL_X_H
 
 #include "MDR32Fx.h"
-#include "init_ports.h"
-#include "init_uart.h"
-#include "init_spi.h"
-#include "init_cpu.h"
-#include "init_timer.h"
-#include "init_interrupt.h"
 
 #define BUSY        0xf1 //занят выполнением другой команды
 #define WRONG_WAY   0xf2 //неправильная команда
@@ -35,6 +29,6 @@
 
 void initBRP(void);
 void getData(uint16_t data);
-uint16_t getStatus(void);
+uint8_t getStatus(void);
 
 #endif
