@@ -56,12 +56,11 @@ int main(void)
     data[3] = SSP_ReceiveData(MDR_SSP2);
     counter = 0;
     SendChar(b);
-    for(i=0; i<4; i++)
-    {
+      for(i=0; i<4; i++)
+      {
 //      if (data[i] == 0xFF) counter++;
-//      else counter = 0;
-      
-    }
+//      else counter = 0;      
+      }
     MDR_PORTE->RXTX ^= PORT_Pin_2;
 //    if (counter == 4) MDR_PORTE->RXTX ^= PORT_Pin_1;
 //    else MDR_PORTE->RXTX ^= PORT_Pin_2;

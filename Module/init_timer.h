@@ -12,7 +12,10 @@
 /* Private define ------------------------------------------------------------*/
 void InitTimer1(void);
 void InitTimer2(void);
-void InitPWM(void);
+void InitPWM(uint8_t);
+void InitPWM1(void);
+void InitPWM2(void);
+uint8_t GetPWM(void);
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 
