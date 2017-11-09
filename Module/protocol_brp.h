@@ -3,6 +3,14 @@
 
 #include "MDR32Fx.h"
 
+#include "init_ports.h"
+#include "init_uart.h"
+#include "init_spi.h"
+#include "init_cpu.h"
+#include "init_timer.h"
+#include "init_interrupt.h"
+
+
 #define BUSY        0xf1 //занят выполнением другой команды
 #define WRONG_WAY   0xf2 //неправильная команда
 #define ERROR       0xf3 //что-то пошло нетак
@@ -23,12 +31,13 @@
 #define D8MHz       0x46 //включить частоту 8.8 МГц на дискретном интерфейсе
 #define DOFF        0x4f //отключить фискретный интерфейс
 #define CHECK       0x51 //проверка связи с БРП
-#define STATUS      0x61 //передать байт состояния
+#define BRP_STATUS  0x61 //передать байт состояния
 
 /* Bit STATUS positions: */
 
 void initBRP(void);
 void getData(uint16_t data);
 uint8_t getStatus(void);
+void SendDataSPI(void);
 
 #endif

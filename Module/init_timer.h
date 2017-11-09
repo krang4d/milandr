@@ -12,6 +12,7 @@
 /* Private define ------------------------------------------------------------*/
 void InitTimer1(void);
 void InitTimer2(void);
+void Delay_mks(uint32_t);
 void InitPWM(uint8_t);
 void InitPWM1(void);
 void InitPWM2(void);

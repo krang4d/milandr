@@ -1,6 +1,7 @@
 #include "init_timer.h"
 
 static uint8_t mode = 0;
+volatile uint32_t Delay_dec = 0;
 
 static TIMER_CntInitTypeDef sTIM_CntInit;
 static TIMER_ChnInitTypeDef sTIM_ChnInit;
@@ -43,6 +44,12 @@ void InitTimer2(void)
   MDR_TIMER2->ARR = 0x9;
 
   MDR_TIMER2->IE = (1 << 1); //разрешение прерывания по совпадению
+}
+
+void Delay_mks(uint32_t Delay_mks_Data)
+{
+  Delay_dec = Delay_mks_Data;
+  while(Delay_dec) {};
 }
 
 void InitPWM1(void)
@@ -228,13 +235,13 @@ void InitPWM2(void)
 void InitPWM(uint8_t XHz)
 {
   switch(XHz){
-    case 1: {CCR1_Val = 1; InitPWM1(); InitPWM2();}
-    case 2: {CCR1_Val = 2; InitPWM1(); InitPWM2();}
-    case 3: {CCR1_Val = 3; InitPWM1(); InitPWM2();}
-    case 4: {CCR1_Val = 4; InitPWM1(); InitPWM2();}
-    case 5: {CCR1_Val = 5; InitPWM1(); InitPWM2();}
-    case 6: {CCR1_Val = 6; InitPWM1(); InitPWM2();}
-      default : {TIMER_Cmd(MDR_TIMER1, DISABLE); TIMER_Cmd(MDR_TIMER2,DISABLE);}
+    case 1: { CCR1_Val = 1; InitPWM1(); InitPWM2(); }
+    case 2: { CCR1_Val = 2; InitPWM1(); InitPWM2(); }
+    case 3: { CCR1_Val = 3; InitPWM1(); InitPWM2(); }
+    case 4: { CCR1_Val = 4; InitPWM1(); InitPWM2(); }
+    case 5: { CCR1_Val = 5; InitPWM1(); InitPWM2(); }
+    case 6: { CCR1_Val = 6; InitPWM1(); InitPWM2(); }
+      default : { TIMER_Cmd(MDR_TIMER1, DISABLE); TIMER_Cmd(MDR_TIMER2,DISABLE); }
     }
 }
 

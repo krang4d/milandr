@@ -6,9 +6,10 @@
 #include "MDR32F9Qx_rst_clk.h"          // Milandr::Drivers:RST_CLK
 #include "MDR32F9Qx_port.h"
 #include "MDR32F9Qx_uart.h"
-#include "MDR32F9Qx_ssp.h"              // Milandr::Drivers:SSP
+#include "MDR32F9Qx_ssp.h"
+#include "protocol_brp.h"
 
-extern volatile uint32_t Delay_dec;
+//extern volatile uint32_t Delay_dec;
 
 void SysTick_Handler(void);
 void SSP2_IRQHandler(void);

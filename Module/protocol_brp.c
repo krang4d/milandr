@@ -1,10 +1,4 @@
 #include "protocol_brp.h"
-#include "init_ports.h"
-#include "init_uart.h"
-#include "init_spi.h"
-#include "init_cpu.h"
-#include "init_timer.h"
-#include "init_interrupt.h"
 
 static PORT_InitTypeDef PORT_InitStructure;
 
@@ -28,19 +22,20 @@ void getData(uint16_t data)
     case D8MHz    :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(6);     break; }
     case DOFF     :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, DISABLE); TIMER_Cmd(MDR_TIMER2,DISABLE);                break; }
     case CHECK    :   { SendChar(data);  /***********************************************************/                 break; }
-    case STATUS   :   { SendChar(getStatus());                                                                         break; }
+    case BRP_STATUS   :   { SendChar(getStatus());                                                                     break; }
       default     :   SendChar(WRONG_WAY);
   }
 }
 
 void initBRP(void)
-{
+{ 
   CPU_init();
-  //инициализация UART1
+  SysTick_init();
+  //инициализация UART2 <<<<<---------после отладки исправить на UART1
   InitUart();
   SPI1_Slave_Init();
   InitPWM1();
-  InitPWM1();
+  InitPWM2();
   //инициализацияя ПОРТОВ PA6, PA5, PA7, отключение нагруски и корпуса
   //инициализация ПОРТОВ PA0, PA1, включение схемы DD1 на передачю A->B, включение схемы DD1 на передачю B->A
   /* Enable the RTCHSE clock on portE */
@@ -73,8 +68,8 @@ uint8_t getStatus(void)
   else status |= ((1 << 1) | (1 << 2));
   if ((uint8_t)Bit_SET == PORT_ReadInputDataBit(MDR_PORTA, PORT_Pin_7)) status &= ~(1 << 1) | (1 << 2); 
   else {
-    if ((uint8_t)Bit_SET == PORT_ReadInputDataBit(MDR_PORTA, PORT_Pin_5)) {status |= (1 << 1); status &= ~(1 << 2);}
-    else {status |= (1 << 2); status &= ~(1 << 1);}
+    if ((uint8_t)Bit_SET == PORT_ReadInputDataBit(MDR_PORTA, PORT_Pin_5)) { status |= (1 << 1); status &= ~(1 << 2); }
+    else { status |= (1 << 2); status &= ~(1 << 1); }
     }
   if ((MDR_SSP1->CR1) & (1 << 1)){
     if((MDR_SSP1->SR) & (1 << 4)) status |= (1 << 3) | (1 << 4);
@@ -95,3 +90,12 @@ uint8_t getStatus(void)
   return status;
 }
 
+void SendDataSPI()
+{
+    uint8_t a = 0xFF;
+    SSP_SendData(MDR_SSP2, --a);
+    SSP_SendData(MDR_SSP1, --a);
+    SSP_SendData(MDR_SSP1, --a);
+    SSP_SendData(MDR_SSP1, --a);
+    SSP_SendData(MDR_SSP1, --a);
+}

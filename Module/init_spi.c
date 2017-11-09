@@ -70,9 +70,9 @@ void SPI1_Master_Init(void)
 }
 
 void SPI2_Master_Init(void)
- {
+{
   /* Configure SSP2 pins: RXD, FSS, CLK, TXD,*/
-	/* Configure PORTD pins 2, 3, 5, 6 */
+  /* Configure PORTD pins 2, 3, 5, 6 */
   MDR_RST_CLK->PER_CLOCK |= (1UL << 24); //тактирование порта D
 
   MDR_PORTD->FUNC |= ((2 << 3*2) | (2 << 5*2) | (2 << 2*2) | (2 << 6*2)); //режим работы порта
@@ -89,7 +89,7 @@ void SPI2_Master_Init(void)
   MDR_SSP2->CR0 |= (0 << 4); //формат кадра
   MDR_SSP2->CR0 |= 7; //длина слова = 8 бит
   MDR_SSP2->CR1 |= ((0 << 2)|(1 << 1)); //режим работы и включение приемопередатчика SSP
- }
+}
 
 void SPI1_Slave_Init(void)
 {

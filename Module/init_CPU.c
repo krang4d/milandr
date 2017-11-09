@@ -14,10 +14,10 @@
 
 void HSE_Init(void)
 {
-  MDR_RST_CLK->PER_CLOCK |= PCLK_EN(RST_CLK);                   //Включаем тактирование контроллера тактовой частоты (по умолчанию включено).
+  MDR_RST_CLK->PER_CLOCK |= PCLK_EN(RST_CLK);                 //Включаем тактирование контроллера тактовой частоты (по умолчанию включено).
   MDR_RST_CLK->HS_CONTROL = HS_CONTROL(HSE_ON);               //Разрешаем использование HSE генератора.
   MDR_RST_CLK->CPU_CLOCK  = CPU_C1_SEL(HSE)|HCLK_SEL(CPU_C3); //Настраиваем "путь" сигнала и включаем тактирование от HSE генератора.
-  MDR_RST_CLK->PER_CLOCK |= PCLK(BKP);                         //Включаем тактирование часов (для костыля).
+  MDR_RST_CLK->PER_CLOCK |= PCLK(BKP);                        //Включаем тактирование часов (для костыля).
 	MDR_BKP->RTC_CS |= RTC_CS(ALRF);                            //Костыль для отключения HSI.
 	MDR_BKP->REG_0F  = MDR_BKP->REG_0F&(REG_0F(HSI_ON));            //Отключаем HSI.
 }
