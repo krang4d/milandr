@@ -2,6 +2,7 @@
 
 static uint8_t mode = 0;
 volatile uint32_t Delay_dec = 0;
+volatile uint8_t Timer_tic = 0;
 
 static TIMER_CntInitTypeDef sTIM_CntInit;
 static TIMER_ChnInitTypeDef sTIM_ChnInit;

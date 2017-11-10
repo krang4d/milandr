@@ -28,9 +28,13 @@ int main(void)
     //Delay_mks(1000000);
     MDR_PORTE->RXTX ^= PORT_Pin_2;
     
-    if ((MDR_PORTA->RXTX & PORT_Pin_2) || (MDR_PORTA->RXTX & PORT_Pin_3) != Bit_RESET)
+    if ((MDR_PORTA->RXTX & PORT_Pin_2) != Bit_RESET)
     {
-      SendDataSPI();
+      SendDataSPI(0);
+    }
+    if ((MDR_PORTA->RXTX & PORT_Pin_3) != Bit_RESET)
+    {
+      SendDataSPI(1);
     }
   }
 }

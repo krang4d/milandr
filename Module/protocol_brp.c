@@ -1,4 +1,5 @@
 #include "protocol_brp.h"
+extern volatile uint8_t Timer_tic;
 
 static PORT_InitTypeDef PORT_InitStructure;
 
@@ -6,24 +7,24 @@ void getData(uint16_t data)
 {
   switch(data)
   {
-    case RON      :   { SendChar(data);  PORT_ResetBits(MDR_PORTA, PORT_Pin_6);                                        break; }
-    case ROFF     :   { SendChar(data);  PORT_SetBits(MDR_PORTA, PORT_Pin_6);                                          break; }
-    case KPON     :   { SendChar(data);  PORT_ResetBits(MDR_PORTA, PORT_Pin_7); PORT_SetBits(MDR_PORTA, PORT_Pin_5);   break; }
-    case KPOFF    :   { SendChar(data);  PORT_SetBits(MDR_PORTA, PORT_Pin_7);                                          break; }
-    case KNON     :   { SendChar(data);  PORT_ResetBits(MDR_PORTA, PORT_Pin_7); PORT_ResetBits(MDR_PORTA, PORT_Pin_5); break; }
-    case KNOFF    :   { SendChar(data);  PORT_SetBits(MDR_PORTA, PORT_Pin_7);                                          break; }
-    case SPION    :   { SendChar(data);  MDR_SSP1->CR1 |= (1 << 1);                                                    break; }
-    case SPIOFF   :   { SendChar(data);  MDR_SSP1->CR1 &= ~(1 << 1);                                                   break; }
-    case D100Hz   :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(1);     break; }
-    case D1kHz    :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(2);     break; }
-    case D10kHz   :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(3);     break; }
-    case D100kHz  :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(4);     break; }
-    case D1MHz    :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(5);     break; }
-    case D8MHz    :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(6);     break; }
-    case DOFF     :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, DISABLE); TIMER_Cmd(MDR_TIMER2,DISABLE);                break; }
-    case CHECK    :   { SendChar(data);  /***********************************************************/                 break; }
-    case BRP_STATUS   :   { SendChar(getStatus());                                                                     break; }
-      default     :   SendChar(WRONG_WAY);
+    case RON          :   { SendChar(data);  PORT_ResetBits(MDR_PORTA, PORT_Pin_6);                                         break; }
+    case ROFF         :   { SendChar(data);  PORT_SetBits(MDR_PORTA, PORT_Pin_6);                                           break; }
+    case KPON         :   { SendChar(data);  PORT_ResetBits(MDR_PORTA, PORT_Pin_7); PORT_SetBits(MDR_PORTA, PORT_Pin_5);    break; }
+    case KPOFF        :   { SendChar(data);  PORT_SetBits(MDR_PORTA, PORT_Pin_7);                                           break; }
+    case KNON         :   { SendChar(data);  PORT_ResetBits(MDR_PORTA, PORT_Pin_7); PORT_ResetBits(MDR_PORTA, PORT_Pin_5);  break; }
+    case KNOFF        :   { SendChar(data);  PORT_SetBits(MDR_PORTA, PORT_Pin_7);                                           break; }
+    case SPION        :   { SendChar(data);  MDR_SSP1->CR1 |= (1 << 1);                                                     break; }
+    case SPIOFF       :   { SendChar(data);  MDR_SSP1->CR1 &= ~(1 << 1);                                                    break; }
+    case D100Hz       :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(1);      break; }
+    case D1kHz        :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(2);      break; }
+    case D10kHz       :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(3);      break; }
+    case D100kHz      :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(4);      break; }
+    case D1MHz        :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(5);      break; }
+    case D8MHz        :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(6);      break; }
+    case DOFF         :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, DISABLE); TIMER_Cmd(MDR_TIMER2,DISABLE);                 break; }
+    case CHECK        :   { SendChar(data);  /************************************************************/                 break; }
+    case BRP_STATUS   :   { SendChar(getStatus());                                                                          break; }
+      default         :   SendChar(WRONG_WAY);
   }
 }
 
@@ -90,12 +91,25 @@ uint8_t getStatus(void)
   return status;
 }
 
-void SendDataSPI()
+void SendDataSPI(uint8_t bl)
 {
-    uint8_t a = 0xFF;
-    SSP_SendData(MDR_SSP2, --a);
-    SSP_SendData(MDR_SSP1, --a);
-    SSP_SendData(MDR_SSP1, --a);
-    SSP_SendData(MDR_SSP1, --a);
-    SSP_SendData(MDR_SSP1, --a);
+    uint8_t a = 0x00;
+    if(bl) a |= (1<<3);
+    else a &= ~(1<<3);
+    a |= (1<<0);
+    Timer_tic = 0;
+    a = (Timer_tic<<4);
+    SSP_SendData(MDR_SSP1, a);
+    a |= (1<<1);
+    a = (Timer_tic<<4);
+    SSP_SendData(MDR_SSP1, a);
+    a |= (1<<0) | (1<<1);
+    a = (Timer_tic<<4);
+    SSP_SendData(MDR_SSP1, a);
+    a |= (1<<2);
+    a = (Timer_tic<<4);
+    SSP_SendData(MDR_SSP1, a);
+    a |= (1<<0) | (1<<2);
+    a = (Timer_tic<<4);
+    SSP_SendData(MDR_SSP1, a);
 }
