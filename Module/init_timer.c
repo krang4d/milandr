@@ -69,11 +69,11 @@ void InitPWM1(void)
   //NVIC->ICER[0] = 0xFFFFFFFF;
 
   /* Reset PORTB settings */
-  PORT_DeInit(MDR_PORTA);
+  //PORT_DeInit(MDR_PORTA);
 
-  /* Configure TIMER1 pins: CH1, CH1N, CH2, CH2N, CH3 */
-  /* Configure PORTA pins 1, 2, 3, 4, 5 */
-  PORT_InitStructure.PORT_Pin   = (PORT_Pin_1 | PORT_Pin_2 | PORT_Pin_3 | PORT_Pin_4 | PORT_Pin_5);
+  /* Configure TIMER1 pins: CH1, CH1N */
+  /* Configure PORTA pins 1, 2*/
+  PORT_InitStructure.PORT_Pin   = (PORT_Pin_1 | PORT_Pin_2);
   PORT_InitStructure.PORT_OE    = PORT_OE_OUT;
   PORT_InitStructure.PORT_FUNC  = PORT_FUNC_ALTER;
   PORT_InitStructure.PORT_MODE  = PORT_MODE_DIGITAL;
@@ -106,7 +106,7 @@ void InitPWM1(void)
   sTIM_CntInit.TIMER_BRK_Polarity             = TIMER_BRKPolarity_NonInverted;
   TIMER_CntInit (MDR_TIMER1,&sTIM_CntInit);
 
-  /* Initializes the TIMER1 Channel 1,1N,2,2N,3 -------------------------------------*/
+  /* Initializes the TIMER1 Channel 1,1N -------------------------------------*/
   TIMER_ChnStructInit(&sTIM_ChnInit);
 
   sTIM_ChnInit.TIMER_CH_Mode                = TIMER_CH_MODE_PWM;
@@ -114,17 +114,17 @@ void InitPWM1(void)
   sTIM_ChnInit.TIMER_CH_Number              = TIMER_CHANNEL1;
   TIMER_ChnInit(MDR_TIMER1, &sTIM_ChnInit);
 
-  sTIM_ChnInit.TIMER_CH_Number              = TIMER_CHANNEL2;
-  TIMER_ChnInit(MDR_TIMER1, &sTIM_ChnInit);
+  //sTIM_ChnInit.TIMER_CH_Number              = TIMER_CHANNEL2;
+  //TIMER_ChnInit(MDR_TIMER1, &sTIM_ChnInit);
 
-  sTIM_ChnInit.TIMER_CH_Number              = TIMER_CHANNEL3;
-  TIMER_ChnInit(MDR_TIMER1, &sTIM_ChnInit);
+  //sTIM_ChnInit.TIMER_CH_Number              = TIMER_CHANNEL3;
+  //TIMER_ChnInit(MDR_TIMER1, &sTIM_ChnInit);
 
   TIMER_SetChnCompare(MDR_TIMER1, TIMER_CHANNEL1, CCR1_Val); //<<<<<<<<<---------------------
-  TIMER_SetChnCompare(MDR_TIMER1, TIMER_CHANNEL2, CCR2_Val);
-  TIMER_SetChnCompare(MDR_TIMER1, TIMER_CHANNEL3, CCR3_Val);
+  //TIMER_SetChnCompare(MDR_TIMER1, TIMER_CHANNEL2, CCR2_Val);
+  //TIMER_SetChnCompare(MDR_TIMER1, TIMER_CHANNEL3, CCR3_Val);
 
-  /* Initializes the TIMER1 Channel 1,1N,2,2N,3 Output -------------------------------*/
+  /* Initializes the TIMER1 Channel 1,1N,2,2N Output -------------------------------*/
 
   TIMER_ChnOutStructInit(&sTIM_ChnOutInit);
 
@@ -137,11 +137,11 @@ void InitPWM1(void)
   sTIM_ChnOutInit.TIMER_CH_Number                   = TIMER_CHANNEL1;
   TIMER_ChnOutInit(MDR_TIMER1, &sTIM_ChnOutInit);
 
-  sTIM_ChnOutInit.TIMER_CH_Number                   = TIMER_CHANNEL2;
-  TIMER_ChnOutInit(MDR_TIMER1, &sTIM_ChnOutInit);
+  //sTIM_ChnOutInit.TIMER_CH_Number                   = TIMER_CHANNEL2;
+  //TIMER_ChnOutInit(MDR_TIMER1, &sTIM_ChnOutInit);
 
-  sTIM_ChnOutInit.TIMER_CH_Number                   = TIMER_CHANNEL3;
-  TIMER_ChnOutInit(MDR_TIMER1, &sTIM_ChnOutInit);
+  //sTIM_ChnOutInit.TIMER_CH_Number                   = TIMER_CHANNEL3;
+  //TIMER_ChnOutInit(MDR_TIMER1, &sTIM_ChnOutInit);
 
   /* Enable TIMER1 clock */
   TIMER_BRGInit(MDR_TIMER1,TIMER_HCLKdiv1);
@@ -165,10 +165,10 @@ void InitPWM2(void)
   //NVIC->ICPR[0] = 0xFFFFFFFF;
   //NVIC->ICER[0] = 0xFFFFFFFF;
 
-  /* Reset PORTB settings */
-  PORT_DeInit(MDR_PORTA);
+  /* Reset PORTE settings */
+  //PORT_DeInit(MDR_PORTE);
 
-  /* Configure TIMER1 pins: CH1 */
+  /* Configure TIMER2 pins: CH1 */
   /* Configure PORTE pins 0 */
   PORT_InitStructure.PORT_Pin   = (PORT_Pin_0);
   PORT_InitStructure.PORT_OE    = PORT_OE_OUT;
@@ -201,17 +201,17 @@ void InitPWM2(void)
   sTIM_CntInit.TIMER_ETR_Prescaler            = TIMER_ETR_Prescaler_None;
   sTIM_CntInit.TIMER_ETR_Polarity             = TIMER_ETRPolarity_NonInverted;
   sTIM_CntInit.TIMER_BRK_Polarity             = TIMER_BRKPolarity_NonInverted;
-  TIMER_CntInit (MDR_TIMER1,&sTIM_CntInit);
+  TIMER_CntInit (MDR_TIMER2,&sTIM_CntInit);
 
-  /* Initializes the TIMER1 Channel 1 -------------------------------------*/
+  /* Initializes the TIMER2 Channel 1 -------------------------------------*/
   TIMER_ChnStructInit(&sTIM_ChnInit);
 
   sTIM_ChnInit.TIMER_CH_Mode                = TIMER_CH_MODE_PWM;
   sTIM_ChnInit.TIMER_CH_REF_Format          = TIMER_CH_REF_Format6;
   sTIM_ChnInit.TIMER_CH_Number              = TIMER_CHANNEL1;
-  TIMER_ChnInit(MDR_TIMER1, &sTIM_ChnInit);
+  TIMER_ChnInit(MDR_TIMER2, &sTIM_ChnInit);
 
-  TIMER_SetChnCompare(MDR_TIMER1, TIMER_CHANNEL1, CCR1_Val);  // <<<<<<<<<<-----------
+  TIMER_SetChnCompare(MDR_TIMER2, TIMER_CHANNEL1, CCR1_Val);  // <<<<<<<<<<-----------
 
   /* Initializes the TIMER1 Channel 1 Output -------------------------------*/
 
@@ -224,7 +224,7 @@ void InitPWM2(void)
   sTIM_ChnOutInit.TIMER_CH_NegOut_Source            = TIMER_CH_OutSrc_REF;
   sTIM_ChnOutInit.TIMER_CH_NegOut_Mode              = TIMER_CH_OutMode_Output;
   sTIM_ChnOutInit.TIMER_CH_Number                   = TIMER_CHANNEL1;
-  TIMER_ChnOutInit(MDR_TIMER1, &sTIM_ChnOutInit);
+  TIMER_ChnOutInit(MDR_TIMER2, &sTIM_ChnOutInit);
 
   /* Enable TIMER2 clock */
   TIMER_BRGInit(MDR_TIMER2,TIMER_HCLKdiv1);

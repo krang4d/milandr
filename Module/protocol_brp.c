@@ -1,4 +1,8 @@
 #include "protocol_brp.h"
+
+#define SPI_ON()   MDR_SSP1->CR1 |= (1 << 1)
+#define SPI_OFF()  MDR_SSP1->CR1 &= ~(1 << 1)
+
 extern volatile uint8_t Timer_tic;
 
 static PORT_InitTypeDef PORT_InitStructure;
@@ -38,8 +42,8 @@ void initBRP(void)
   InitPWM1();
   InitPWM2();
   //инициализацияя ПОРТОВ PA6, PA5, PA7, отключение нагруски и корпуса
-  //инициализация ПОРТОВ PA0, PA1, включение схемы DD1 на передачю A->B, включение схемы DD1 на передачю B->A
-  /* Enable the RTCHSE clock on portE */
+  //инициализация ПОРТОВ PA0, PA4, включение схемы DD1 на передачю A->B, включение схемы DD1 на передачю B->A
+  /* Enable the RTCHSE clock on portA */
   RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTA, ENABLE);
   PORT_InitStructure.PORT_Pin   = (PORT_Pin_0 | PORT_Pin_4 | PORT_Pin_5 | PORT_Pin_6 | PORT_Pin_7);
   PORT_InitStructure.PORT_OE    = PORT_OE_OUT;
@@ -50,6 +54,7 @@ void initBRP(void)
   PORT_SetBits(MDR_PORTA, PORT_Pin_0 | PORT_Pin_6 | PORT_Pin_7 | PORT_Pin_5);
   PORT_ResetBits(MDR_PORTA, PORT_Pin_4);
   
+  //инициализацияя ПОРТОВ PA2, PA3 на прием команд SIN, TEST для передачи по SPI слова данных
   PORT_InitStructure.PORT_Pin   = (PORT_Pin_2 | PORT_Pin_3); //SYN, TEST
   PORT_InitStructure.PORT_OE    = PORT_OE_IN;
   PORT_InitStructure.PORT_FUNC  = PORT_FUNC_PORT;
@@ -79,6 +84,7 @@ uint8_t getStatus(void)
   else status &= ~((1 << 3) | (1 << 4));
   
   switch(GetPWM()){
+    
     case 0: status &= ~((1 << 7) | (1 << 6) | (1 << 7));
     case 1: { status |= (1 << 7); status &= ~((1 << 6) | (1 << 5)); }
     case 2: { status |= (1 << 6); status &= ~((1 << 7) | (1 << 5)); }
@@ -99,17 +105,17 @@ void SendDataSPI(uint8_t bl)
     a |= (1<<0);
     Timer_tic = 0;
     a = (Timer_tic<<4);
-    SSP_SendData(MDR_SSP1, a);
+    SSP_SendData(MDR_SSP1, a); // byte 1
     a |= (1<<1);
     a = (Timer_tic<<4);
-    SSP_SendData(MDR_SSP1, a);
+    SSP_SendData(MDR_SSP1, a); // byte 2
     a |= (1<<0) | (1<<1);
     a = (Timer_tic<<4);
-    SSP_SendData(MDR_SSP1, a);
+    SSP_SendData(MDR_SSP1, a); // byte 3
     a |= (1<<2);
     a = (Timer_tic<<4);
-    SSP_SendData(MDR_SSP1, a);
+    SSP_SendData(MDR_SSP1, a); // byte 4
     a |= (1<<0) | (1<<2);
     a = (Timer_tic<<4);
-    SSP_SendData(MDR_SSP1, a);
+    SSP_SendData(MDR_SSP1, a); // byte 5
 }

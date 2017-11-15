@@ -14,15 +14,9 @@
 #include "Module/init_interrupt.h"
 #include "Module/protocol_brp.h"
 
-RST_CLK_FreqTypeDef Clocks;
-char a = 0xFF;
-char data[4] = {'0'};
-char b = 0x00;
-char str[] = "Hellow\n";
-int i, counter;
-
 int main(void)
 {
+  initBRP();
   while(1)
   {
     //Delay_mks(1000000);
