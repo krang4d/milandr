@@ -101,18 +101,22 @@ void SendDataSPI(uint8_t bl)
     else a &= ~(1<<3);
     a |= (1<<0);
     Timer_tic = 0;
-    a = (Timer_tic<<4);
+    a |= (Timer_tic<<4);
     SSP_SendData(MDR_SSP1, a); // byte 1
     a |= (1<<1);
-    a = (Timer_tic<<4);
+    a &= ~((1<<4) | (1<<5) | (1<<6) | (1<<7));
+    a |= (Timer_tic<<4);
     SSP_SendData(MDR_SSP1, a); // byte 2
     a |= (1<<0) | (1<<1);
+    a &= ~((1<<4) | (1<<5) | (1<<6) | (1<<7));
     a = (Timer_tic<<4);
     SSP_SendData(MDR_SSP1, a); // byte 3
     a |= (1<<2);
+    a &= ~((1<<4) | (1<<5) | (1<<6) | (1<<7));
     a = (Timer_tic<<4);
     SSP_SendData(MDR_SSP1, a); // byte 4
     a |= (1<<0) | (1<<2);
+    a &= ~((1<<4) | (1<<5) | (1<<6) | (1<<7));
     a = (Timer_tic<<4);
     SSP_SendData(MDR_SSP1, a); // byte 5
 }
