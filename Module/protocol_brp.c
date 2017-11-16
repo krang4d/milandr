@@ -1,8 +1,5 @@
 #include "protocol_brp.h"
 
-#define SPI_ON()   MDR_SSP1->CR1 |= (1 << 1)
-#define SPI_OFF()  MDR_SSP1->CR1 &= ~(1 << 1)
-
 extern volatile uint8_t Timer_tic;
 
 static PORT_InitTypeDef PORT_InitStructure;
@@ -19,13 +16,13 @@ void getData(uint16_t data)
     case KNOFF        :   { SendChar(data);  PORT_SetBits(MDR_PORTA, PORT_Pin_7);                                           break; }
     case SPION        :   { SendChar(data);  MDR_SSP1->CR1 |= (1 << 1);                                                     break; }
     case SPIOFF       :   { SendChar(data);  MDR_SSP1->CR1 &= ~(1 << 1);                                                    break; }
-    case D100Hz       :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(1);      break; }
-    case D1kHz        :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(2);      break; }
-    case D10kHz       :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(3);      break; }
-    case D100kHz      :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(4);      break; }
-    case D1MHz        :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(5);      break; }
-    case D8MHz        :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE); InitPWM(6);      break; }
-    case DOFF         :   { SendChar(data);  TIMER_Cmd(MDR_TIMER1, DISABLE); TIMER_Cmd(MDR_TIMER2,DISABLE);                 break; }
+    case D100Hz       :   { SendChar(data);  SetPWM(1);                                                                     break; }
+    case D1kHz        :   { SendChar(data);  SetPWM(2);                                                                     break; }
+    case D10kHz       :   { SendChar(data);  SetPWM(3);                                                                     break; }
+    case D100kHz      :   { SendChar(data);  SetPWM(4);                                                                     break; }
+    case D1MHz        :   { SendChar(data);  SetPWM(5);                                                                     break; }
+    case D8MHz        :   { SendChar(data);  SetPWM(6);                                                                     break; }
+    case DOFF         :   { SendChar(data);  SetPWM(0);                                                                     break; }
     case CHECK        :   { SendChar(data);  /************************************************************/                 break; }
     case BRP_STATUS   :   { SendChar(getStatus());                                                                          break; }
       default         :   SendChar(WRONG_WAY);
@@ -85,14 +82,14 @@ uint8_t getStatus(void)
   
   switch(GetPWM()){
     
-    case 0: status &= ~((1 << 7) | (1 << 6) | (1 << 7));
-    case 1: { status |= (1 << 7); status &= ~((1 << 6) | (1 << 5)); }
-    case 2: { status |= (1 << 6); status &= ~((1 << 7) | (1 << 5)); }
-    case 3: { status |= (1 << 7) | (1 << 6); status &= ~(1 << 5); }
-    case 4: { status |= (1 << 5); status &= ~((1 << 7) | (1 << 6)); }
-    case 5: { status |= (1 << 5) | (1 << 7); status &= ~(1 << 6); }
-    case 6: { status |= (1 << 5) | (1 << 6); status &= ~(1 << 7); }
-    default: status &= ~((1 << 7) | (1 << 6) | (1 << 7));
+    case 0: { status &= ~((1 << 7) | (1 << 6) | (1 << 5));          break; }
+    case 1: { status |= (1 << 7); status &= ~((1 << 6) | (1 << 5)); break; }
+    case 2: { status |= (1 << 6); status &= ~((1 << 7) | (1 << 5)); break; }
+    case 3: { status |= (1 << 7) | (1 << 6); status &= ~(1 << 5);   break; }
+    case 4: { status |= (1 << 5); status &= ~((1 << 7) | (1 << 6)); break; }
+    case 5: { status |= (1 << 5) | (1 << 7); status &= ~(1 << 6);   break; }
+    case 6: { status |= (1 << 5) | (1 << 6); status &= ~(1 << 7);   break; }
+      default: status &= ~((1 << 7) | (1 << 6) | (1 << 5));
   }
   return status;
 }

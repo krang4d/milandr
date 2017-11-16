@@ -33,6 +33,9 @@
 #define CHECK       0x51 //проверка связи с БРП
 #define BRP_STATUS  0x61 //передать байт состояния
 
+#define SPI_ON()   MDR_SSP1->CR1 |= (1 << 1)
+#define SPI_OFF()  MDR_SSP1->CR1 &= ~(1 << 1)
+
 /* Bit STATUS positions: */
 
 /* SPI bit field positions: */

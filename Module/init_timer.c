@@ -10,8 +10,8 @@ static TIMER_ChnOutInitTypeDef sTIM_ChnOutInit;
 static PORT_InitTypeDef PORT_InitStructure;
 
 static uint16_t CCR1_Val = 0x2;
-static uint16_t CCR2_Val = 0x3;
-static uint16_t CCR3_Val = 0x7;
+//static uint16_t CCR2_Val = 0x3;
+//static uint16_t CCR3_Val = 0x7;
 
 void InitTimer1(void)
 {
@@ -233,16 +233,17 @@ void InitPWM2(void)
   TIMER_Cmd(MDR_TIMER2,ENABLE);
 }
 
-void InitPWM(uint8_t XHz)
+void SetPWM(uint8_t XHz)
 {
+  TIMERS_DISABLE;
   switch(XHz){
-    case 1: { CCR1_Val = 1; InitPWM1(); InitPWM2(); }
-    case 2: { CCR1_Val = 2; InitPWM1(); InitPWM2(); }
-    case 3: { CCR1_Val = 3; InitPWM1(); InitPWM2(); }
-    case 4: { CCR1_Val = 4; InitPWM1(); InitPWM2(); }
-    case 5: { CCR1_Val = 5; InitPWM1(); InitPWM2(); }
-    case 6: { CCR1_Val = 6; InitPWM1(); InitPWM2(); }
-      default : { TIMER_Cmd(MDR_TIMER1, DISABLE); TIMER_Cmd(MDR_TIMER2,DISABLE); }
+    case 1: { CCR1_Val = 1; InitPWM1(); InitPWM2(); mode = XHz; break; }
+    case 2: { CCR1_Val = 2; InitPWM1(); InitPWM2(); mode = XHz; break; }
+    case 3: { CCR1_Val = 3; InitPWM1(); InitPWM2(); mode = XHz; break; }
+    case 4: { CCR1_Val = 4; InitPWM1(); InitPWM2(); mode = XHz; break; }
+    case 5: { CCR1_Val = 5; InitPWM1(); InitPWM2(); mode = XHz; break; }
+    case 6: { CCR1_Val = 6; InitPWM1(); InitPWM2(); mode = XHz; break; }
+      default : mode = 0;
     }
 }
 
