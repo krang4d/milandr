@@ -15,13 +15,13 @@ void InitUart(void)
 
   MDR_RST_CLK->PER_CLOCK |= (1UL << 7); //тактирование UART2
   MDR_RST_CLK->UART_CLOCK = (0 /*установка делителя для UART1 = undefined*/
-  |(2 << 8) /*установка делителя для UART2 = 4*/
+  |(4 << 8) /*установка делителя для UART2 = 16*/
   |(0 << 24) /*разрешение тактовой частоты UART1*/
   |(1 << 25)); /*разрешение тактовой частоты UART2*/ 
 
-  //Параметры делителя при частоте = 20000000Гц и скорости = 921600
-  MDR_UART2->IBRD = 0x1; //целая часть делителя скорости
-  MDR_UART2->FBRD = 0x17; //дробная часть делителя скорости
+  //Параметры делителя при частоте = 5000000Гц и скорости = 115200
+  MDR_UART2->IBRD = 0x2; //целая часть делителя скорости
+  MDR_UART2->FBRD = 0x2e; //дробная часть делителя скорости
   MDR_UART2->LCR_H = ((0 << 1) /*разрешение проверки четности*/
   |(0 << 2) /*четность/нечетность (нет контроля)*/
   |(0 << 3) /*стоп-бит = 1бит*/
@@ -85,16 +85,22 @@ void InitUart(void)
 int SendChar(char ch)
 {
   /* Check TXFE flag */
-  while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE)!= SET) ;
+//  while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE)!= SET)
+//  {
+//  }
   /* Send Data from UART2 */
   UART_SendData (MDR_UART2,(uint16_t)ch);
+
 	return 0;
 }
 
-int SendString(char *str, int len)
+int SendHello(void)
 {
-  int i;
-  for ( i=0; i<len; i++)
-    SendChar(str[i]);
+  uint16_t i;
+  char str[] = "Hellow\n";
+  for ( i=0; i<7; i++)
+  {
+    UART_SendData (MDR_UART2,(uint16_t)str[i]);
+  }
 	return 0;
 }
