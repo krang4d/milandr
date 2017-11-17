@@ -16,11 +16,11 @@
 
 int main(void)
 {
-  initBRP();
+  InitBRP();
   while(1)
   {
     //Delay_mks(1000000);
-    MDR_PORTE->RXTX ^= PORT_Pin_2;
+    MDR_PORTE->RXTX ^= PORT_Pin_2; // Светодиод VD9 на отладочной плате
     
     if ((MDR_PORTA->RXTX & PORT_Pin_2) != Bit_RESET)
     {

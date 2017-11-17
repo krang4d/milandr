@@ -39,7 +39,7 @@
 /* Bit STATUS positions: */
 
 /* SPI bit field positions: */
-void initBRP(void);
+void InitBRP(void);
 void getData(uint16_t data);
 uint8_t getStatus(void);
 void SendDataSPI(uint8_t bl);

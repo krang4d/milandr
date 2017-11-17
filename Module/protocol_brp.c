@@ -29,7 +29,7 @@ void getData(uint16_t data)
   }
 }
 
-void initBRP(void)
+void InitBRP(void)
 { 
   CPU_init();
   SysTick_init();
@@ -38,27 +38,7 @@ void initBRP(void)
   SPI1_Slave_Init();
   InitPWM1();
   InitPWM2();
-  //инициализацияя ПОРТОВ PA6, PA5, PA7, отключение нагруски и корпуса
-  //инициализация ПОРТОВ PA0, PA4, включение схемы DD1 на передачю A->B, включение схемы DD1 на передачю B->A
-  /* Enable the RTCHSE clock on portA */
-  RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTA, ENABLE);
-  PORT_InitStructure.PORT_Pin   = (PORT_Pin_0 | PORT_Pin_4 | PORT_Pin_5 | PORT_Pin_6 | PORT_Pin_7);
-  PORT_InitStructure.PORT_OE    = PORT_OE_OUT;
-  PORT_InitStructure.PORT_FUNC  = PORT_FUNC_PORT;
-  PORT_InitStructure.PORT_MODE  = PORT_MODE_DIGITAL;
-  PORT_InitStructure.PORT_SPEED = PORT_SPEED_MAXFAST;
-  PORT_Init(MDR_PORTA, &PORT_InitStructure);
-  PORT_SetBits(MDR_PORTA, PORT_Pin_0 | PORT_Pin_6 | PORT_Pin_7 | PORT_Pin_5);
-  PORT_ResetBits(MDR_PORTA, PORT_Pin_4);
-  
-  //инициализацияя ПОРТОВ PA2, PA3 на прием команд SIN, TEST для передачи по SPI слова данных
-  PORT_InitStructure.PORT_Pin   = (PORT_Pin_2 | PORT_Pin_3); //SYN, TEST
-  PORT_InitStructure.PORT_OE    = PORT_OE_IN;
-  PORT_InitStructure.PORT_FUNC  = PORT_FUNC_PORT;
-  PORT_InitStructure.PORT_MODE  = PORT_MODE_DIGITAL;
-  PORT_InitStructure.PORT_SPEED = PORT_SPEED_MAXFAST;
-  PORT_Init(MDR_PORTA, &PORT_InitStructure);
-  //выключение цифрового интерфейса и дискретного
+  Init_All_LEDs();
 }
 
 uint8_t getStatus(void)
@@ -94,10 +74,10 @@ uint8_t getStatus(void)
   return status;
 }
 
-void SendDataSPI(uint8_t bl)
+void SendDataSPI(uint8_t SYNorTEST)
 {
     uint8_t a = 0x00;
-    if(bl) a |= (1<<3);
+    if(SYNorTEST) a |= (1<<3);
     else a &= ~(1<<3);
     a |= (1<<0);
     Timer_tic = 0;
