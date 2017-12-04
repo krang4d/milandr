@@ -9,6 +9,16 @@ void SysTick_Handler(void)
   Timer_tic++;
 }
 
+void EXT_INT2_IRQHandler(void) // SYN
+{
+  SendDataSPI(0);
+}
+
+void EXT_INT4_IRQHandler(void) // TEST
+{
+  SendDataSPI(1);
+}
+
 void SSP2_IRQHandler(void)
 {
   uint16_t data;

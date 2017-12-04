@@ -8,8 +8,10 @@
 #include "MDR32F9Qx_timer.h"            // Milandr::Drivers:TIMER
 #include <stdio.h>
 
-#define TIMERS_ENABLE   TIMER_Cmd(MDR_TIMER1, ENABLE); TIMER_Cmd(MDR_TIMER2, ENABLE)
-#define TIMERS_DISABLE  TIMER_Cmd(MDR_TIMER1, DISABLE); TIMER_Cmd(MDR_TIMER2,DISABLE)
+#define TIMERS_ENABLE   TIMER_Cmd(MDR_TIMER1, ENABLE);\
+                        TIMER_Cmd(MDR_TIMER2, ENABLE)
+#define TIMERS_DISABLE  TIMER_Cmd(MDR_TIMER1, DISABLE);\
+                        TIMER_Cmd(MDR_TIMER2,DISABLE)
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/

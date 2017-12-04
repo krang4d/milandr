@@ -6,6 +6,8 @@
 #include "MDR32F9Qx_timer.h"            // Milandr::Drivers:TIMER
 #include "MDR32F9Qx_ssp.h"              // Milandr::Drivers:SSP
 
+#define ROB //инициализация UART2 <<<<<---------после отладки закоментировать для исправления на UART1
+
 #include "Module/init_ports.h"
 #include "Module/init_uart.h"
 #include "Module/init_spi.h"
@@ -22,11 +24,11 @@ int main(void)
     //Delay_mks(1000000);
     MDR_PORTE->RXTX ^= PORT_Pin_2; // Светодиод VD9 на отладочной плате
     
-    if ((MDR_PORTA->RXTX & PORT_Pin_2) != Bit_RESET)
+    if ((MDR_PORTA->RXTX & PORT_Pin_2) == Bit_RESET)
     {
       SendDataSPI(0);
     }
-    if ((MDR_PORTA->RXTX & PORT_Pin_3) != Bit_RESET)
+    if ((MDR_PORTA->RXTX & PORT_Pin_3) == Bit_RESET)
     {
       SendDataSPI(1);
     }

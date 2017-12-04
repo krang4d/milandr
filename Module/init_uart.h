@@ -11,6 +11,8 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 void InitUart(void);
+void InitUART1(void);
+void InitUART2(void);
 int SendChar(char ch);
 int SendString(char *, int);
 

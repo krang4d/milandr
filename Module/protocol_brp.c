@@ -14,8 +14,8 @@ void getData(uint16_t data)
     case KPOFF        :   { SendChar(data);  PORT_SetBits(MDR_PORTA, PORT_Pin_7);                                           break; }
     case KNON         :   { SendChar(data);  PORT_ResetBits(MDR_PORTA, PORT_Pin_7); PORT_ResetBits(MDR_PORTA, PORT_Pin_5);  break; }
     case KNOFF        :   { SendChar(data);  PORT_SetBits(MDR_PORTA, PORT_Pin_7);                                           break; }
-    case SPION        :   { SendChar(data);  MDR_SSP1->CR1 |= (1 << 1);                                                     break; }
-    case SPIOFF       :   { SendChar(data);  MDR_SSP1->CR1 &= ~(1 << 1);                                                    break; }
+    case SPION        :   { SendChar(data);  SPI1_ON;                                                                       break; }
+    case SPIOFF       :   { SendChar(data);  SPI1_OFF;                                                                      break; }
     case D100Hz       :   { SendChar(data);  SetPWM(1);                                                                     break; }
     case D1kHz        :   { SendChar(data);  SetPWM(2);                                                                     break; }
     case D10kHz       :   { SendChar(data);  SetPWM(3);                                                                     break; }
@@ -33,7 +33,6 @@ void InitBRP(void)
 { 
   CPU_init();
   SysTick_init();
-  //инициализация UART2 <<<<<---------после отладки исправить на UART1
   InitUart();
   SPI1_Slave_Init();
   InitPWM1();
@@ -76,6 +75,7 @@ uint8_t getStatus(void)
 
 void SendDataSPI(uint8_t SYNorTEST)
 {
+    //НУЖНО ДОБАВИТЬ УСТАНОВКУ SLAVE SELCT КОММУТИУЕМЫЙ НА PF2 С (PE7)?
     uint8_t a = 0x00;
     if(SYNorTEST) a |= (1<<3);
     else a &= ~(1<<3);
@@ -99,4 +99,5 @@ void SendDataSPI(uint8_t SYNorTEST)
     a &= ~((1<<4) | (1<<5) | (1<<6) | (1<<7));
     a = (Timer_tic<<4);
     SSP_SendData(MDR_SSP1, a); // byte 5
+    //НУЖНО ДОБАВИТЬ СНЯТИЕ SLAVE SELCT КОММУТИУЕМЫЙ НА PF2 С (PE7)?
 }
