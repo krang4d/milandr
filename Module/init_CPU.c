@@ -32,7 +32,7 @@ void HSE_16Mhz_Init (void)                                                      
 void CPU_init (void)
 {
 //Необходимая пауза для работы Flash-памяти программ
-  MDR_EEPROM->CMD |= (1 << 3);
+  MDR_EEPROM->CMD |= (1 << 0) | (1 << 1);
 
   MDR_RST_CLK->HS_CONTROL = 0x01; // вкл. HSE осцилятора 
   while ((MDR_RST_CLK->CLOCK_STATUS & (1 << 2)) == 0x00); // ждем пока HSE выйдет в рабочий режим 
