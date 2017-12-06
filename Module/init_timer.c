@@ -9,7 +9,9 @@ static TIMER_ChnInitTypeDef sTIM_ChnInit;
 static TIMER_ChnOutInitTypeDef sTIM_ChnOutInit;
 static PORT_InitTypeDef PORT_InitStructure;
 
-static uint16_t CCR1_Val = 0x2;
+static uint16_t CCR1_Val = 0x1;
+static uint16_t Prescaler = 0x7;
+static uint16_t Period = 0xE;
 //static uint16_t CCR2_Val = 0x3;
 //static uint16_t CCR3_Val = 0x7;
 
@@ -93,8 +95,8 @@ void InitPWM1(void)
   ----------------------------------------------------------------------- */
 
   /* Initializes the TIMERx Counter ------------------------------------*/
-  sTIM_CntInit.TIMER_Prescaler                = 0x0;
-  sTIM_CntInit.TIMER_Period                   = 0x8;
+  sTIM_CntInit.TIMER_Prescaler                = Prescaler;
+  sTIM_CntInit.TIMER_Period                   = Period;
   sTIM_CntInit.TIMER_CounterMode              = TIMER_CntMode_ClkFixedDir;
   sTIM_CntInit.TIMER_CounterDirection         = TIMER_CntDir_Up;
   sTIM_CntInit.TIMER_EventSource              = TIMER_EvSrc_None;
@@ -190,8 +192,8 @@ void InitPWM2(void)
   ----------------------------------------------------------------------- */
 
   /* Initializes the TIMERx Counter ------------------------------------*/
-  sTIM_CntInit.TIMER_Prescaler                = 0x0;
-  sTIM_CntInit.TIMER_Period                   = 0x8;
+  sTIM_CntInit.TIMER_Prescaler                = Prescaler;
+  sTIM_CntInit.TIMER_Period                   = Period;
   sTIM_CntInit.TIMER_CounterMode              = TIMER_CntMode_ClkFixedDir;
   sTIM_CntInit.TIMER_CounterDirection         = TIMER_CntDir_Up;
   sTIM_CntInit.TIMER_EventSource              = TIMER_EvSrc_None;
@@ -237,12 +239,12 @@ void SetPWM(uint8_t XHz)
 {
   TIMERS_DISABLE;
   switch(XHz){
-    case 1: { CCR1_Val = 1; InitPWM1(); InitPWM2(); mode = XHz; break; }
-    case 2: { CCR1_Val = 2; InitPWM1(); InitPWM2(); mode = XHz; break; }
-    case 3: { CCR1_Val = 3; InitPWM1(); InitPWM2(); mode = XHz; break; }
-    case 4: { CCR1_Val = 4; InitPWM1(); InitPWM2(); mode = XHz; break; }
-    case 5: { CCR1_Val = 5; InitPWM1(); InitPWM2(); mode = XHz; break; }
-    case 6: { CCR1_Val = 6; InitPWM1(); InitPWM2(); mode = XHz; break; }
+    case 1: { set100Hz(); InitPWM1(); InitPWM2(); mode = XHz; break; }
+    case 2: { set1kHz(); InitPWM1(); InitPWM2(); mode = XHz; break; }
+    case 3: { set10kHz(); InitPWM1(); InitPWM2(); mode = XHz; break; }
+    case 4: { set100kHz(); InitPWM1(); InitPWM2(); mode = XHz; break; }
+    case 5: { set1MHz(); InitPWM1(); InitPWM2(); mode = XHz; break; }
+    case 6: { set10MHz(); InitPWM1(); InitPWM2(); mode = XHz; break; }
       default : mode = 0;
     }
 }
@@ -250,4 +252,46 @@ void SetPWM(uint8_t XHz)
 uint8_t GetPWM(void)
 {
   return mode;
+}
+
+void set100Hz(void) //1MHz
+{
+  CCR1_Val = 0x4;
+  Prescaler = 0xB;
+  Period = 0x40;
+}
+
+void set1kHz(void)
+{
+  CCR1_Val = 0x4;
+  Prescaler = 0xB;
+  Period = 0x41;
+}
+
+void set10kHz(void)
+{
+  CCR1_Val = 0x4;
+  Prescaler = 0xB;
+  Period = 0x42;
+}
+
+void set100kHz(void)
+{
+  CCR1_Val = 0x4;
+  Prescaler = 0xB;
+  Period = 0x42;
+}
+
+void set1MHz(void)
+{
+  CCR1_Val = 0x2;
+  Prescaler = 0x7;
+  Period = 0x9;
+}
+
+void set10MHz(void)
+{
+  CCR1_Val = 0x2;
+  Prescaler = 0x0;
+  Period = 0x7;
 }

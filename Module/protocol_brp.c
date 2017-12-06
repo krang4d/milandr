@@ -2,8 +2,6 @@
 
 extern volatile uint8_t Timer_tic;
 
-static PORT_InitTypeDef PORT_InitStructure;
-
 void getData(uint16_t data)
 {
   switch(data)

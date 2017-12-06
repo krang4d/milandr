@@ -22,6 +22,13 @@ void SetPWM(uint8_t);
 void InitPWM1(void);
 void InitPWM2(void);
 uint8_t GetPWM(void);
+
+void set100Hz(void);
+void set1kHz(void);
+void set10kHz(void);
+void set100kHz(void);
+void set1MHz(void);
+void set10MHz(void);
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 
