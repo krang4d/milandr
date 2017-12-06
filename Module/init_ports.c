@@ -50,7 +50,19 @@ void Init_All_LEDs(void)
   PORT_InitStructure.PORT_MODE  = PORT_MODE_DIGITAL;
   PORT_InitStructure.PORT_SPEED = PORT_SPEED_MAXFAST;
   PORT_Init(MDR_PORTA, &PORT_InitStructure);
-  //выключение цифрового интерфейса и дискретного
+
+  /* Enable the RTCHSE clock on portB */
+  RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB, ENABLE);
+  //инициализацияя ПОРТОВ PB9, PB10 на прием команд на прерывание TEST, SIN для передачи по SPI слова данных
+  PORT_InitStructure.PORT_Pin   = (PORT_Pin_9 | PORT_Pin_10); //TEST, SYN
+  PORT_InitStructure.PORT_OE    = PORT_OE_IN;
+  PORT_InitStructure.PORT_FUNC  = PORT_FUNC_PORT;
+  PORT_InitStructure.PORT_MODE  = PORT_MODE_DIGITAL;
+  PORT_InitStructure.PORT_SPEED = PORT_SPEED_MAXFAST;
+  PORT_Init(MDR_PORTB, &PORT_InitStructure);
+
+  NVIC_EnableIRQ(EXT_INT2_IRQn); //SYN
+  NVIC_EnableIRQ(EXT_INT4_IRQn); //TEST
 }
 
 void BlinkyLed(void)
