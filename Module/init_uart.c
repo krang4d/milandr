@@ -1,5 +1,7 @@
 #include "init_uart.h"
 
+#define ROB //инициализация UART2 <<<<<---------после отладки закоментировать для исправления на UART1
+
 void InitUART1(void)
 {
   MDR_RST_CLK->PER_CLOCK |= (1UL << 22); //тактирование порта B

@@ -6,8 +6,6 @@
 #include "MDR32F9Qx_timer.h"            // Milandr::Drivers:TIMER
 #include "MDR32F9Qx_ssp.h"              // Milandr::Drivers:SSP
 
-#define ROB //инициализация UART2 <<<<<---------после отладки закоментировать для исправления на UART1
-
 #include "Module/init_ports.h"
 #include "Module/init_uart.h"
 #include "Module/init_spi.h"
