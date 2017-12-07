@@ -33,8 +33,7 @@ void InitBRP(void)
   SysTick_init();
   InitUart();
   SPI1_Slave_Init();
-  InitPWM1();
-  InitPWM2();
+  SetPWM(0);
   Init_All_LEDs();
 }
 
@@ -73,26 +72,30 @@ uint8_t getStatus(void)
 
 void SendDataSPI(uint8_t SYNorTEST)
 {
-    //НУЖНО ДОБАВИТЬ УСТАНОВКУ SLAVE SELCT КОММУТИУЕМЫЙ НА PF2 С (PE7)?
+    //НУЖНО ДОБАВИТЬ УСТАНОВКУ SLAVE SELCT КОММУТИРУЕМЫЙ НА PF2 С (PE7)?
     uint8_t a = 0x00;
     if(SYNorTEST) a |= (1<<3);
     else a &= ~(1<<3);
     a |= (1<<0);
     Timer_tic = 0;
     a |= (Timer_tic<<4);
-    SSP_SendData(MDR_SSP1, a); // byte 1
+    /* byte 1 */
+    SSP_SendData(MDR_SSP1, a);
     a |= (1<<1);
     a &= ~((1<<4) | (1<<5) | (1<<6) | (1<<7));
     a |= (Timer_tic<<4);
-    SSP_SendData(MDR_SSP1, a); // byte 2
+    /* byte 2 */
+    SSP_SendData(MDR_SSP1, a);
     a |= (1<<0) | (1<<1);
     a &= ~((1<<4) | (1<<5) | (1<<6) | (1<<7));
     a = (Timer_tic<<4);
-    SSP_SendData(MDR_SSP1, a); // byte 3
+    /* byte 3 */
+    SSP_SendData(MDR_SSP1, a);
     a |= (1<<2);
     a &= ~((1<<4) | (1<<5) | (1<<6) | (1<<7));
     a = (Timer_tic<<4);
-    SSP_SendData(MDR_SSP1, a); // byte 4
+    /* byte 4 */
+    SSP_SendData(MDR_SSP1, a);
     a |= (1<<0) | (1<<2);
     a &= ~((1<<4) | (1<<5) | (1<<6) | (1<<7));
     a = (Timer_tic<<4);

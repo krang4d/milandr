@@ -9,9 +9,9 @@ static TIMER_ChnInitTypeDef sTIM_ChnInit;
 static TIMER_ChnOutInitTypeDef sTIM_ChnOutInit;
 static PORT_InitTypeDef PORT_InitStructure;
 
-static uint16_t CCR1_Val = 0x1;
-static uint16_t Prescaler = 0x7;
-static uint16_t Period = 0xE;
+static uint16_t CCR1_Val = 0x0;
+static uint16_t Prescaler = 0x0;
+static uint16_t Period = 0x0;
 //static uint16_t CCR2_Val = 0x3;
 //static uint16_t CCR3_Val = 0x7;
 
@@ -86,12 +86,11 @@ void InitPWM1(void)
   TIMER_DeInit(MDR_TIMER1);
 
   /* TIM1 Configuration ---------------------------------------------------
-   Generates 5 PWM signals with 4 different duty cycles:
-   TIM1CLK = 8 MHz, Prescaler = 0, TIM1 counter clock = 8 MHz
-   TIM1 frequency = TIM1CLK/(TIM1_Period + 1) = 1.95 KHz
-  - TIM1 Channel1 & Channel1N duty cycle = TIM1->CCR1 / (TIM1_Period + 1) = 50%
-  - TIM1 Channel2 & Channel2N duty cycle = TIM1->CCR2 / (TIM1_Period + 1) = 25%
-  - TIM1 Channel3 duty cycle = TIM1->CCR3 / (TIM1_Period + 1) = 12.5%
+   Generates 1 PWM signal:
+   CPUCLK = 80 MHz
+   TIM1CLK = CPUCLK/(TIM1_Prescaler + 1) 
+   TIM1 frequency = TIM1CLK/(TIM1_Period + 1)
+   TIM1 Channel1 duty cycle = TIM1->CCR1 / (TIM1_Period + 1)
   ----------------------------------------------------------------------- */
 
   /* Initializes the TIMERx Counter ------------------------------------*/
@@ -182,13 +181,12 @@ void InitPWM2(void)
   /* Reset all TIMER2 settings */
   TIMER_DeInit(MDR_TIMER2);
 
-  /* TIM1 Configuration ---------------------------------------------------
-   Generates 5 PWM signals with 4 different duty cycles:
-   TIM1CLK = 8 MHz, Prescaler = 0, TIM1 counter clock = 8 MHz
-   TIM1 frequency = TIM1CLK/(TIM1_Period + 1) = 1.95 KHz
-  - TIM1 Channel1 & Channel1N duty cycle = TIM1->CCR1 / (TIM1_Period + 1) = 50%
-  - TIM1 Channel2 & Channel2N duty cycle = TIM1->CCR2 / (TIM1_Period + 1) = 25%
-  - TIM1 Channel3 duty cycle = TIM1->CCR3 / (TIM1_Period + 1) = 12.5%
+  /* TIM2 Configuration ---------------------------------------------------
+  Generates 1 PWM signal:
+  CPUCLK = 80 MHz
+  TIM2CLK = CPUCLK/(TIM2_Prescaler+1) 
+  TIM2 frequency = TIM2CLK/(TIM2_Period + 1)
+  TIM2 Channel2 duty cycle = TIM2->CCR1 / (TIM2_Period + 1)
   ----------------------------------------------------------------------- */
 
   /* Initializes the TIMERx Counter ------------------------------------*/
@@ -215,7 +213,7 @@ void InitPWM2(void)
 
   TIMER_SetChnCompare(MDR_TIMER2, TIMER_CHANNEL1, CCR1_Val);  // <<<<<<<<<<-----------
 
-  /* Initializes the TIMER1 Channel 1 Output -------------------------------*/
+  /* Initializes the TIMER2 Channel 1 Output -------------------------------*/
 
   TIMER_ChnOutStructInit(&sTIM_ChnOutInit);
 
@@ -244,7 +242,7 @@ void SetPWM(uint8_t XHz)
     case 3: { set10kHz(); InitPWM1(); InitPWM2(); mode = XHz; break; }
     case 4: { set100kHz(); InitPWM1(); InitPWM2(); mode = XHz; break; }
     case 5: { set1MHz(); InitPWM1(); InitPWM2(); mode = XHz; break; }
-    case 6: { set10MHz(); InitPWM1(); InitPWM2(); mode = XHz; break; }
+    case 6: { set8MHz(); InitPWM1(); InitPWM2(); mode = XHz; break; }
       default : mode = 0;
     }
 }
@@ -254,44 +252,44 @@ uint8_t GetPWM(void)
   return mode;
 }
 
-void set100Hz(void) //1MHz
+void set100Hz(void) //100
 {
-  CCR1_Val = 0x4;
-  Prescaler = 0xB;
-  Period = 0x40;
+  CCR1_Val = 0xA;
+  Prescaler = 0x1F3F;
+  Period = 0x64;
 }
 
-void set1kHz(void)
+void set1kHz(void) //1k
 {
-  CCR1_Val = 0x4;
-  Prescaler = 0xB;
-  Period = 0x41;
+  CCR1_Val = 0x2;
+  Prescaler = 0x1F3F;
+  Period = 0x9;
 }
 
-void set10kHz(void)
+void set10kHz(void) //10k
 {
-  CCR1_Val = 0x4;
-  Prescaler = 0xB;
-  Period = 0x42;
+  CCR1_Val = 0x2;
+  Prescaler = 0x31F;
+  Period = 0x9;
 }
 
-void set100kHz(void)
+void set100kHz(void) //100k
 {
-  CCR1_Val = 0x4;
-  Prescaler = 0xB;
-  Period = 0x42;
+  CCR1_Val = 0x2;
+  Prescaler = 0x4F;
+  Period = 0x9;
 }
 
-void set1MHz(void)
+void set1MHz(void) //1M
 {
   CCR1_Val = 0x2;
   Prescaler = 0x7;
   Period = 0x9;
 }
 
-void set10MHz(void)
+void set8MHz(void) // 8M
 {
   CCR1_Val = 0x2;
-  Prescaler = 0x0;
-  Period = 0x7;
+  Prescaler = 0x1;
+  Period = 0x4;
 }

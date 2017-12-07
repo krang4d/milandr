@@ -64,12 +64,3 @@ void Init_All_LEDs(void)
   NVIC_EnableIRQ(EXT_INT2_IRQn); //SYN
   NVIC_EnableIRQ(EXT_INT4_IRQn); //TEST
 }
-
-void BlinkyLed(void)
-{
-    int i;
-    PORT_ResetBits(MDR_PORTE, PORT_Pin_1);
-    for(i = 0; i<1000000; i++){;}
-    PORT_SetBits(MDR_PORTE, PORT_Pin_1);
-    for(i = 0; i<1000000; i++){;} 
-}

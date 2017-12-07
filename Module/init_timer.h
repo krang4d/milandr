@@ -3,9 +3,9 @@
 
 #include "MDR32F9Qx_config.h"
 #include "MDR32Fx.h"
-#include "MDR32F9Qx_rst_clk.h"          // Milandr::Drivers:RST_CLK
+#include "MDR32F9Qx_rst_clk.h"
 #include "MDR32F9Qx_port.h"
-#include "MDR32F9Qx_timer.h"            // Milandr::Drivers:TIMER
+#include "MDR32F9Qx_timer.h"
 #include <stdio.h>
 
 #define TIMERS_ENABLE   TIMER_Cmd(MDR_TIMER1, ENABLE);\
@@ -13,8 +13,6 @@
 #define TIMERS_DISABLE  TIMER_Cmd(MDR_TIMER1, DISABLE);\
                         TIMER_Cmd(MDR_TIMER2,DISABLE)
 
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
 void InitTimer1(void);
 void InitTimer2(void);
 void Delay_mks(uint32_t);
@@ -28,11 +26,6 @@ void set1kHz(void);
 void set10kHz(void);
 void set100kHz(void);
 void set1MHz(void);
-void set10MHz(void);
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-
-/* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
+void set8MHz(void);
 
 #endif
