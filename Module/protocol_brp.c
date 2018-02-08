@@ -23,7 +23,7 @@ void getData(uint16_t data)
     case DOFF         :   { SendChar(data);  SetPWM(0);                                                                     break; }
     case CHECK        :   { SendChar(data);  /************************************************************/                 break; }
     case BRP_STATUS   :   { SendChar(getStatus());                                                                          break; }
-      default         :   SendChar(WRONG_WAY);
+      default         :   SendChar(data);//SendChar(WRONG_WAY);
   }
 }
 

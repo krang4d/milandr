@@ -38,6 +38,26 @@ void SSP2_IRQHandler(void)
   }
 }
 
+void UART1_IRQHandler(void)
+{
+  uint16_t data;
+  if (MDR_UART1->MIS & UART_IT_RX) //(UART_GetITStatusMasked(MDR_UART1, UART_IT_RX)== SET)
+  {
+    //UART_ClearITPendingBit(MDR_UART1, UART_IT_RX);
+    MDR_UART1->ICR |= UART_IT_RX;
+    MDR_PORTE->RXTX ^= PORT_Pin_2;
+    data = (uint16_t)(MDR_UART1->DR);
+    getData(data);
+    //MDR_UART1->DR = (data & (uint16_t)0x0FF);
+  }
+  if (MDR_UART1->MIS & UART_IT_TX) //(UART_GetITStatusMasked(MDR_UART1, UART_IT_TX)== SET)
+  {
+    //UART_ClearITPendingBit(MDR_UART2, UART_IT_TX);
+    MDR_UART1->ICR |= UART_IT_TX;
+    MDR_PORTE->RXTX ^= PORT_Pin_3;
+  }
+}
+
 void UART2_IRQHandler(void)
 {
   uint16_t data;
