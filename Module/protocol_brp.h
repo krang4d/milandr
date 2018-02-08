@@ -9,6 +9,7 @@
 #include "init_cpu.h"
 #include "init_timer.h"
 #include "init_interrupt.h"
+#include "init_ports.h"
 
 
 #define BUSY        0xf1 //занят выполнением другой команды

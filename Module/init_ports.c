@@ -15,7 +15,7 @@ void Init_All_LEDs(void)
   PORT_InitStructure.PORT_SPEED = PORT_SPEED_MAXFAST;
 
   PORT_Init(MDR_PORTE, &PORT_InitStructure);
-  
+  //PORTE PIN0 - TMR2_CH1
   PORT_InitStructure.PORT_Pin   = (PORT_Pin_0);
   PORT_InitStructure.PORT_OE    = PORT_OE_OUT;
   PORT_InitStructure.PORT_FUNC  = PORT_FUNC_ALTER;
@@ -28,6 +28,9 @@ void Init_All_LEDs(void)
   PORT_SetBits(MDR_PORTE, PORT_Pin_1);
   PORT_SetBits(MDR_PORTE, PORT_Pin_2);
   PORT_SetBits(MDR_PORTE, PORT_Pin_3);
+  
+  //RESET SLAVE SELECT PIN
+  PortE_Bit7 = 0;
   
   /************************************/
   /* Enable the RTCHSE clock on portA */

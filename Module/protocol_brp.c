@@ -57,7 +57,6 @@ uint8_t getStatus(void)
   else status &= ~((1 << 3) | (1 << 4));
   
   switch(GetPWM()){
-    
     case 0: { status &= ~((1 << 7) | (1 << 6) | (1 << 5));          break; }
     case 1: { status |= (1 << 7); status &= ~((1 << 6) | (1 << 5)); break; }
     case 2: { status |= (1 << 6); status &= ~((1 << 7) | (1 << 5)); break; }
@@ -72,8 +71,8 @@ uint8_t getStatus(void)
 
 void SendDataSPI(uint8_t SYNorTEST)
 {
-    //НУЖНО ДОБАВИТЬ УСТАНОВКУ SLAVE SELCT КОММУТИРУЕМЫЙ НА PF2 С (PE7)?
     uint8_t a = 0x00;
+    PortE_Bit7 = 0; //НУЖНО ДОБАВИТЬ УСТАНОВКУ SLAVE SELCT КОММУТИРУЕМЫЙ НА PF2 С (PE7)?!
     if(SYNorTEST) a |= (1<<3);
     else a &= ~(1<<3);
     a |= (1<<0);
@@ -99,6 +98,7 @@ void SendDataSPI(uint8_t SYNorTEST)
     a |= (1<<0) | (1<<2);
     a &= ~((1<<4) | (1<<5) | (1<<6) | (1<<7));
     a = (Timer_tic<<4);
-    SSP_SendData(MDR_SSP1, a); // byte 5
-    //НУЖНО ДОБАВИТЬ СНЯТИЕ SLAVE SELCT КОММУТИУЕМЫЙ НА PF2 С (PE7)?
+    /* byte 5 */
+    SSP_SendData(MDR_SSP1, a);
+    PortE_Bit7 = 1; //НУЖНО ДОБАВИТЬ СНЯТИЕ SLAVE SELCT КОММУТИУЕМЫЙ НА PF2 С (PE7)?!
 }

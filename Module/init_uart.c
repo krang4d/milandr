@@ -1,6 +1,6 @@
 #include "init_uart.h"
 
-#define ROB //инициализация UART2 <<<<<---------после отладки закоментировать для исправления на UART1
+//#define ROB //инициализация UART2 <<<<<---------после отладки закоментировать для исправления на UART1 (RS422)
 
 void InitUART1(void)
 {
@@ -74,12 +74,19 @@ void InitUart(void)
 
 int SendChar(char ch)
 {
+#ifdef ROB
   /* Check TXFE flag */
   while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE)!= SET) ;
 
   /* Send Data from UART2 */
   UART_SendData (MDR_UART2,(uint16_t)ch);
+#else
+   /* Check TXFE flag */
+  while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE)!= SET) ;
 
+  /* Send Data from UART2 */
+  UART_SendData (MDR_UART1,(uint16_t)ch);
+#endif
 	return 0;
 }
 
